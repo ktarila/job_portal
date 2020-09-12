@@ -9,7 +9,7 @@
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
         {% set required = false %}
     {%- endif -%}
-    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' block w-full bg-white border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500' ~ (form.vars.errors|length > 0 ? ' border-red-700 border-1': ''))|trim}) -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' h-12 block w-full bg-white border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500' ~ (form.vars.errors|length > 0 ? ' border-red-700 border-1': ''))|trim}) -%}
     <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
@@ -114,7 +114,7 @@
 {% endblock form_label_class -%}
 
 {% block input_class -%}
-    {% if form.vars.errors|length %}border-red border-1{% endif %} bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name 
+    {% if form.vars.errors|length %}border-red border-1{% endif %} h-12 bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name 
 {% endblock input_class -%}
 
 {% block form_group_class -%}

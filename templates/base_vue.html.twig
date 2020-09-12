@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Job Portal" content="Job Portal">
+    <meta name="description" content="Job Portal">
+    <meta name="keywords" content="Job Portal">
+    <title>Job Portal {% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+    {{ encore_entry_link_tags('tailwind') }}
+    {% endblock %}
+</head>
+    <body class="antialiased font-sans leading-normal tracking-normal bg-gray-100 text-gray-900">
+        <div id="app"></div>
+        {{ encore_entry_script_tags('app') }}
+    </body>
+</html>
