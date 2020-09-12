@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Register{% endblock %}
+{% block body %}
+<div class="font-sans antialiased bg-grey-lightest">
+    <!-- Content -->
+    <div class="w-full bg-grey-lightest pt-20">
+        <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
+            <div class="w-full bg-white rounded shadow">
+                <div class="py-4 px-8 text-black text-2xl border-b border-grey-lighter">Create an application account</div>
+                <div class="py-4 px-8">
+                    {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="bg-red-500 rounded font-medium text-white px-5 py-2 mb-5 w-full" role="alert">{{ flashError }}</div>
+                    {% endfor %}
+
+                    {% for successError in app.flashes('success') %}
+                    <div class="bg-teal-500 rounded font-medium text-white p-2 mb-5 w-full" role="alert">{{ successError }}</div>
+                    {% endfor %}
+
+                    {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.fullname) }}
+                    {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                    }) }}
+                    {{ form_row(registrationForm.agreeTerms) }}
+                    <button type="submit" class="uppercase font-medium hover:bg-green-700 bg-green-600 text-white w-full px-4 py-3 rounded">Register</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+            <p class="text-center my-4">
+                <a href="#" class="text-grey-dark text-sm no-underline hover:text-grey-darker">I already have an account</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="w-full bg-grey-lighter py-8">
+        <div class="container mx-auto text-center px-8">
+            <p class="text-grey-dark mb-2 text-sm">Copyright @ 2020 <span class="font-bold">Job Portal</span></p>
+        </div>
+    </footer>
+</div>
+{% endblock %}

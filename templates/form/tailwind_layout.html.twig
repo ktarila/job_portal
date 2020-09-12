@@ -1,0 +1,127 @@
+{% use "form_div_layout.html.twig" %}
+
+{% block text_widget %}
+    {%- set type = type|default('text') -%}
+    {{ block('form_widget_simple') }}
+{% endblock %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple and (attr.size is not defined or attr.size <= 1) -%}
+        {% set required = false %}
+    {%- endif -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' block w-full bg-white border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500' ~ (form.vars.errors|length > 0 ? ' border-red-700 border-1': ''))|trim}) -%}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {% set render_preferred_choices = true %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {%- set render_preferred_choices = false -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+{%- endblock choice_widget_collapsed -%}
+
+{%- block form_widget_compound -%}
+    <div class="md:flex flex-wrap w-full" {{ block('widget_container_attributes') }}>
+        {%- if form is rootform -%}
+            {{ form_errors(form) }}
+        {%- endif -%}
+        {{- block('form_rows') -}}
+        {{- form_rest(form) -}}
+    </div>
+{%- endblock form_widget_compound -%}
+
+{%- block form_start -%}
+    {%- do form.setMethodRendered() -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form class="tailwindform" {% if name != '' %} name="{{ name }}"{% endif %} method="{{ form_method|lower }}"{% if action != '' %} action="{{ action }}"{% endif %}{{ block('attributes') }}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start -%}
+
+{%- block textarea_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' appearance-none bg-grey-lighter border border-grey-lighter rounded w-full py-2 px-4 text-grey-darker leading-tight focus:border-gray-500 focus:outline-none focus:bg-white focus:border-blue-light' ~ (form.vars.errors|length > 0 ? ' border-red-700 border-1': ''))|trim}) -%}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+{%- endblock textarea_widget -%}
+
+{% block form_widget_simple -%}
+    {% if type is not defined or type != 'hidden' %}
+        {%- set attr = attr|merge({class: (attr.class|default('') ~ ' bg-white appearance-none border-2 border-gray-400 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name' ~ (form.vars.errors|length > 0 ? ' border-red-700 border-1': ''))|trim}) -%}
+    {% endif %}
+    {%- if type is defined and (type == 'range' or type == 'color') %}
+        {# Attribute "required" is not supported #}
+        {%- set required = false -%}
+    {% endif %}
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{% block form_label -%}
+    {%- if label is same as(false) -%}
+        <div class="{{ block('form_label_class') }}"></div>
+    {%- else -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' ' ~ block('form_label_class'))|trim}) -%}
+        <div class="w-full">
+            {{- parent() -}}
+        </div>
+    {%- endif -%}
+{%- endblock form_label %}
+
+{% block form_row -%}
+    {%- set widget_attr = {} -%}
+    <div class="mb-5 w-full">
+        <div class="md:flex md:items-center row mb-2">
+            <div class="{{ block('form_group_class') }}">
+                {{- form_label(form) -}}
+                {{ form_errors(form)  }}
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_help(form) -}}
+            </div>
+        </div>
+        
+    </div>
+{%- endblock form_row %}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <div class="md:flex md:items-center mb-0">
+            <div class="w-full">
+                <ul class="list-reset">
+                    {%- for error in errors -%}
+                        <li class="text-red-700 text-xs italic">{{ error.message }}</li>
+                    {%- endfor -%}
+                </ul>
+            </div>
+        </div>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+
+{% block form_label_class -%}
+    block tracking-wide text-gray-900 text-sm {% if form.vars.errors|length > 0 %} text-red-700{% endif %}
+{% endblock form_label_class -%}
+
+{% block input_class -%}
+    {% if form.vars.errors|length %}border-red border-1{% endif %} bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name 
+{% endblock input_class -%}
+
+{% block form_group_class -%}
+    w-full
+{% endblock form_group_class -%}
+
+{% block custom_button_class -%}
+    bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline
+{% endblock custom_button_class -%}
+
