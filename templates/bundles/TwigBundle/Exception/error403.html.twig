@@ -1,0 +1,10 @@
+{% extends 'base_error.html.twig' %}
+{% block title %} 403 - Access Denied {% endblock %}
+{% block body %}
+            <div class="max-w-md">
+                <div class="text-5xl font-dark font-bold">403</div>
+                <p class="text-2xl md:text-3xl font-light leading-normal">Access Denied </p>
+                <p class="mb-8">Access Denied. You are not allowed to perform this action.</p>
+                <a href="{{path('home')}}"><button class="px-4 inline py-2 text-sm font-medium leading-5 shadow text-white transition-colors duration-150 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-blue bg-blue-600 active:bg-blue-600 hover:bg-blue-700">back to homepage</button></a>
+            </div>
+{% endblock %}
