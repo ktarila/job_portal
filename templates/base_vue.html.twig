@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,8 +13,26 @@
     {{ encore_entry_link_tags('tailwind') }}
     {% endblock %}
 </head>
-    <body class="antialiased font-sans leading-normal tracking-normal bg-gray-100 text-gray-900">
-        <div id="app"></div>
-        {{ encore_entry_script_tags('app') }}
-    </body>
+
+<body class="antialiased font-sans leading-normal tracking-normal bg-gray-100 text-gray-900">
+    <div class="">
+        {% include 'nav.html.twig' %}
+        
+        <div>
+            {% block body %}
+            <div id="app"></div>
+            {% endblock %}
+        </div>
+    </div>
+    <script type="text/javascript">
+    function toggleNavbar(collapseID) {
+        document.getElementById(collapseID).classList.toggle("hidden");
+        document.getElementById(collapseID).classList.toggle("flex");
+    }
+    </script>
+    {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</body>
+
 </html>
