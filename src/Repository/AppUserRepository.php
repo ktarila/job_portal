@@ -58,6 +58,20 @@ class AppUserRepository extends ServiceEntityRepository implements PasswordUpgra
             ->getOneOrNullResult();
     }
 
+    /**
+    * @param string $role
+    *
+    * @return array
+    */
+    public function findByRole($role)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.roles LIKE :roles')
+            ->setParameter('roles', '%"' . $role . '"%');
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return AppUser[] Returns an array of AppUser objects
     //  */

@@ -11,7 +11,7 @@
 
 namespace App\Command;
 
-use App\Entity\User;
+use App\Entity\AppUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,24 +34,28 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class ListUsersCommand extends Command {
-	private $entityManager;
+class ListUsersCommand extends Command
+{
+    private $entityManager;
 
-	public function __construct(EntityManagerInterface $em) {
-		parent::__construct();
+    public function __construct(EntityManagerInterface $em)
+    {
+        parent::__construct();
 
-		$this->entityManager = $em;
-	}
+        $this->entityManager = $em;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function configure() {
-		$this
-		// a good practice is to use the 'app:' prefix to group all your custom application commands
-		->setName('app:list-users')
-			->setDescription('Lists all the existing users / Can list by role')
-			->setHelp(<<<'HELP'
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+        // a good practice is to use the 'app:' prefix to group all your custom application commands
+        ->setName('app:list-users')
+            ->setDescription('Lists all the existing users / Can list by role')
+            ->setHelp(
+                <<<'HELP'
 The <info>%command.name%</info> command lists all the users registered in the application:
 
   <info>php %command.full_name%</info>
@@ -67,56 +71,57 @@ results to display with the <comment>--max-results</comment> option:
   <info>php %command.full_name%</info> <comment>--role=ROLE_ADMIN</comment> <comment>--max-results=2000</comment>
 
 HELP
-			)
-		// commands can optionally define arguments and/or options (mandatory and optional)
-		// see https://symfony.com/doc/current/components/console/console_arguments.html
-			->addOption('role',null,InputOption::VALUE_OPTIONAL,'Sets the role of user to display','ROLE_USER')
-			->addOption('max-results',null,InputOption::VALUE_OPTIONAL,'Limits the number of users listed',50)
-		;
-	}
+            )
+        // commands can optionally define arguments and/or options (mandatory and optional)
+        // see https://symfony.com/doc/current/components/console/console_arguments.html
+            ->addOption('role', null, InputOption::VALUE_OPTIONAL, 'Sets the role of user to display', 'ROLE_USER')
+            ->addOption('max-results', null, InputOption::VALUE_OPTIONAL, 'Limits the number of users listed', 50)
+        ;
+    }
 
-	/**
-	 * This method is executed after initialize(). It usually contains the logic
-	 * to execute to complete this command task.
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$role = $input->getOption('role');
-		$maxResults = $input->getOption('max-results');
-		// Use ->findBy() instead of ->findAll() to allow result sorting and limiting
-		//dump($role);
-		$users = [];
-		if ($role != null) {
-			$users = $this->entityManager->getRepository(User::class)->findByRole($role);
+    /**
+     * This method is executed after initialize(). It usually contains the logic
+     * to execute to complete this command task.
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $role = $input->getOption('role');
+        $maxResults = $input->getOption('max-results');
+        // Use ->findBy() instead of ->findAll() to allow result sorting and limiting
+        //dump($role);
+        $users = [];
+        if ($role != null) {
+            $users = $this->entityManager->getRepository(AppUser::class)->findByRole($role);
+        } else {
+            $users = $this->entityManager->getRepository(AppUser::class)->findBy([], ['id' => 'DESC'], $maxResults);
+        }
 
-		} else {
-			$users = $this->entityManager->getRepository(User::class)->findBy([], ['id' => 'DESC'], $maxResults);
-		}
+        // Doctrine query returns an array of objects and we need an array of plain arrays
+        $usersAsPlainArrays = array_map(function (AppUser $user) {
+            return [
+                $user->getId(),
+                $user->getFullname(),
+                $user->getEmail(),
+                implode(', ', $user->getRoles()),
+            ];
+        }, $users);
 
-		// Doctrine query returns an array of objects and we need an array of plain arrays
-		$usersAsPlainArrays = array_map(function (User $user) {
-			return [
-				$user->getId(),
-				$user->getFullName(),
-				$user->getUsername(),
-				$user->getEmail(),
-				implode(', ', $user->getRoles()),
-			];
-		}, $users);
+        // In your console commands you should always use the regular output type,
+        // which outputs contents directly in the console window. However, this
+        // command uses the BufferedOutput type instead, to be able to get the output
+        // contents before displaying them. This is needed because the command allows
+        // to send the list of users via email with the '--send-to' option
+        $bufferedOutput = new BufferedOutput();
+        $io = new SymfonyStyle($input, $bufferedOutput);
+        $io->table(
+            ['ID', 'Fullname', 'Email', 'Roles'],
+            $usersAsPlainArrays
+        );
 
-		// In your console commands you should always use the regular output type,
-		// which outputs contents directly in the console window. However, this
-		// command uses the BufferedOutput type instead, to be able to get the output
-		// contents before displaying them. This is needed because the command allows
-		// to send the list of users via email with the '--send-to' option
-		$bufferedOutput = new BufferedOutput();
-		$io = new SymfonyStyle($input, $bufferedOutput);
-		$io->table(
-			['ID', 'Full Name', 'Username', 'Email', 'Roles'],
-			$usersAsPlainArrays
-		);
+        // instead of just displaying the table of users, store its contents in a variable
+        $usersAsATable = $bufferedOutput->fetch();
+        $output->write($usersAsATable);
 
-		// instead of just displaying the table of users, store its contents in a variable
-		$usersAsATable = $bufferedOutput->fetch();
-		$output->write($usersAsATable);
-	}
+        return Command::SUCCESS;
+    }
 }
