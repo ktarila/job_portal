@@ -93,7 +93,7 @@
           </div>
           <div class="ml-auto">
             <button
-              class="focus:outline-none focus:bg-white border rounded-md px-3 py-2 leading-none bg-green-600 hover:bg-green-700 text-white"
+              class="focus:outline-none border rounded-md px-3 py-2 leading-none bg-green-600 hover:bg-green-700 text-white"
             >
               Add a new position
             </button>
