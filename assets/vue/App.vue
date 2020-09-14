@@ -10,16 +10,20 @@ export default {
   name: "App",
   data() {
     return {
-      menuShow: false
+      menuShow: false,
+      csrf: '',
     }
   },
   computed: {
     isAuthenticated() {
       return this.$store.getters['isAuthenticated']
-    },
+    }
   },
   created() {
+    let token = this.$parent.$el.attributes['data-csrf'].value
+    this.$store.dispatch('addToken', token)
     this.$store.dispatch('AutoLogin')
+
   },
   methods: {
     toggleNavbar: function(){
@@ -29,7 +33,7 @@ export default {
     logout(){
       this.$store.dispatch('logout');
     }
-  }
+  },
 }
 </script>
 

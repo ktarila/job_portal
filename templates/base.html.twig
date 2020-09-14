@@ -23,12 +23,13 @@
             {% endblock %}
         </div>
     </div>
-    <script type="text/javascript">
-    function toggleNavbar(collapseID) {
-        document.getElementById(collapseID).classList.toggle("hidden");
-        document.getElementById(collapseID).classList.toggle("flex");
-    }
-    </script>
+<script type="text/javascript">
+// eslint-disable-next-line no-unused-vars
+function toggleNavbar(collapseID) {
+  document.getElementById(collapseID).classList.toggle("hidden");
+  document.getElementById(collapseID).classList.toggle("flex");
+}
+</script>
     {% block javascripts %}
     {% endblock %}
 </body>
