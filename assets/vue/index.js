@@ -17,6 +17,11 @@ extend('required', {
   message: 'This field is required'
 });
 
+
+
+import VDatePicker from 'v-calendar';
+Vue.use(VDatePicker, {});
+
 new Vue({
   components: { App },
   template: "<App/>",

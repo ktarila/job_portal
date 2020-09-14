@@ -214,82 +214,134 @@
                     >
                       Deadline
                     </label>
-                    <input
-                      id="grid-deadline"
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      type="text"
-                      placeholder="Deadline"
-                    >
+                    <v-date-picker
+                      v-model="newPosition.deadline"
+                      :input-props="{
+                        class: &quot;appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500&quot;,
+                        placeholder: &quot;Deadline&quot;,
+                        readonly: true
+                      }"
+                      mode="single"
+                      show-caps
+                    />
                   </div>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">
-                  <div class="w-full px-3">
-                    <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      for="grid-description"
-                    >
-                      Description
-                    </label>
-                    <textarea
-                      id="grid-description"
-                      rows="6"
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                      type="password"
-                      placeholder="Description"
-                    />
-                    <p class="text-gray-600 text-xs italic -mt-3">
-                      Job Description
-                    </p>
-                  </div>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                    class="w-full"
+                  >
+                    <div class=" px-3">
+                      <label
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-description"
+                      >
+                        Description
+                      </label>
+                      <textarea
+                        id="grid-description"
+                        v-model="newPosition.description"
+                        rows="6"
+                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                        type="password"
+                        placeholder="Description"
+                        :class="{ 'border-red-400': errors.length > 0 }"
+                      />
+                      <p class="text-gray-600 text-xs italic -mt-3">
+                        Job Description
+                      </p>
+                      <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
+                    </div>
+                  </validation-provider>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-2">
                   <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      for="grid-country"
+                    <validation-provider
+                      v-slot="{ errors }"
+                      rules="required"
                     >
-                      Country
-                    </label>
-                    <div class="relative">
-                      <select
-                        id="grid-country"
-                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      <label
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-country"
                       >
-                        <option>Nigeria</option>
-                        <option>Algeria</option>
-                      </select>
-                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg
-                          class="fill-current h-4 w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                        Country
+                      </label>
+                      <div class="relative">
+                        <select
+                          id="grid-country"
+                          v-model="selectedCountryIndex"
+                          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          :class="{ 'border-red-400': errors.length > 0 }"
+                          @change="changeCountry($event)"
+                        >
+                          <option
+                            v-for="(country, index) in countries"
+                            :key="index"
+                            :value="index"
+                          >
+                            {{ country.name }}
+                          </option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                          <svg
+                            class="fill-current h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                        </div>
                       </div>
-                    </div>
+                      <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
+                    </validation-provider>
                   </div> 
-                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                      for="grid-state"
+                  <div
+                    
+                    class="w-full md:w-1/2 px-3 mb-6 md:mb-0"
+                  >
+                    <validation-provider
+                      v-slot="{ errors }"
+                      rules="required"
                     >
-                      State/Region
-                    </label>
-                    <div class="relative">
-                      <select
-                        id="grid-state"
-                        class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      <label
+                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        for="grid-state"
                       >
-                        <option>Abuja</option>
-                        <option>Lagos</option>
-                      </select>
-                      <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <svg
-                          class="fill-current h-4 w-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                        ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                        State/Region
+                      </label>
+                      <div class="relative">
+                        <select
+                          v-if="selectedCountryIndex != null"
+                          id="grid-state"
+                          v-model="selectedStateIndex"
+                          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          :class="{ 'border-red-400': errors.length > 0 }"
+                          @change="changeState($event)"
+                        >
+                          <option
+                            v-for="(state, index) in currentStates"
+                            :key="state.id"
+                            :value="index"
+                          >
+                            {{ state.name }}
+                          </option>
+                        </select>
+                        <select
+                          v-else
+                          id="grid-state"
+                          v-model="selectedStateIndex"
+                          class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          :class="{ 'border-red-400': errors.length > 0 }"
+                        />
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                          <svg
+                            class="fill-current h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          ><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                        </div>
                       </div>
-                    </div>
+                      <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
+                    </validation-provider>
                   </div>
                 </div>
               </form>
@@ -325,6 +377,7 @@
 </template>
 
 <script>
+import CountryAPI from '../api/country';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import RecentPositions from './RecentPositions'
 export default {
@@ -332,7 +385,7 @@ export default {
   components: {
     RecentPositions,
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
   data: function() {
     return {
@@ -340,30 +393,73 @@ export default {
       isLoading: false,
       fullPage: false,
       loader: "bars",
+      countries: [],
       showModal: false,
+      selectedCountryIndex: null,
+      selectedStateIndex: null,
       newPosition: {
-        'title': null
+        'title': null,
+        'country': null,
+        'state': null,
+        'deadline': new Date(),
+        'description': null,
       }
     };
   },
+  computed: {
+    currentStates() {
+      return this.countries[this.selectedCountryIndex].states
+    }
+  },
   mounted: function() {
     this.$data.csrf = this.$store.getters['getCsrfToken']
+    this.getAllCountries();
   },
   methods: {
     toggleModal(){
       this.showModal = !this.showModal;
     },
+    changeCountry(event){
+      let countryIndex = event.target.value;
+      this.newPosition.country = this.countries[countryIndex];
+      this.selectedStateIndex = null;
+      this.newPosition.state = null;
+    },
+    changeState(event){
+      let stateIndex = event.target.value;
+      if (stateIndex >= 0 && this.newPosition.country != null && this.newPosition.country.states.length >= stateIndex)
+      {
+        this.newPosition.state = this.newPosition.country.states[stateIndex];
+
+      } else {
+        this.newPosition.state = null
+      }
+    },
+    getAllCountries() {
+      CountryAPI.allCountries()
+        .then(function(response) {
+          return response.data;
+        })
+        .catch(err => console.log(err)).then(res => this.setCountries(res));
+
+    },
+    setCountries(countries) {
+      this.countries = countries["hydra:member"];
+    },
     async submitForm(){
+      // this.newPosition.deadline = moment(this.date).format('YYYY-MM-DD');
+
       const isValid = await this.$refs.observer.validate();
       if (isValid) {
-        // data is valid - post your form data
         this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
           this.showModal = !this.showModal;
         }, 3000);
         
-      } 
+      }
+
+      console.log(this.newPosition) 
       
 
     }

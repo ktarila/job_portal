@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={"get"},
  *     itemOperations={"get"},
- *     normalizationContext={"groups"={"read"}},
+ *     normalizationContext={"groups"={"country-read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )
  */
@@ -24,18 +24,19 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"read"})
+     * @Groups({"country-read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"read"})
+     * @Groups({"country-read"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=State::class, mappedBy="country", orphanRemoval=true)
+     * @Groups({"country-read"})
      */
     private $states;
 
