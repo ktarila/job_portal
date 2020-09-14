@@ -1,5 +1,10 @@
 <template>
   <div>
+    <loading-overlay
+      :active="isLoading"
+      :is-full-page="fullPage"
+      :loader="loader"
+    />
     <!-- section body header -->
     <header
       aria-label="page caption"
@@ -332,6 +337,9 @@ export default {
   data: function() {
     return {
       csrf: '',
+      isLoading: false,
+      fullPage: false,
+      loader: "bars",
       showModal: false,
       newPosition: {
         'title': null
@@ -349,7 +357,12 @@ export default {
       const isValid = await this.$refs.observer.validate();
       if (isValid) {
         // data is valid - post your form data
-        this.showModal = !this.showModal;
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+          this.showModal = !this.showModal;
+        }, 3000);
+        
       } 
       
 
