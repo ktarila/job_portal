@@ -157,9 +157,9 @@
     <!-- Create Staff Modal  -->
     <div
       v-if="showModal"
-      class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+      class="overflow-x-hidden overflow-y-scroll fixed inset-0 z-50 outline-none focus:outline-none mt-0 md:mt-20"
     >
-      <div class="relative w-auto my-6 mx-auto max-w-3xl">
+      <div class="relative w-auto my-6 mx-auto max-w-lg">
         <!--content-->
         <div class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
           <!--header-->
@@ -177,7 +177,7 @@
             </button>
           </div>
           <!--body-->
-          <div class="relative p-6 flex-auto">
+          <div class="relative p-6 flex-auto w-full max-w-lg">
             <ValidationObserver
               ref="observer"
               slim
@@ -379,7 +379,7 @@
 <script>
 import CountryAPI from '../api/country';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-import RecentPositions from './RecentPositions'
+import RecentPositions from './position/RecentPositions'
 export default {
   name: "Ads",
   components: {
