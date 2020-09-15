@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
  * @ApiResource(
+ *     attributes={"pagination_enabled"=false},
  *     collectionOperations={"get"},
  *     itemOperations={"get"},
  *     normalizationContext={"groups"={"country-read"}},

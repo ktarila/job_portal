@@ -1,5 +1,5 @@
 import SecurityAPI from '../api/security';
-import router from "../router";
+// import router from "../router";
 
 export default {
   state: {
@@ -47,10 +47,9 @@ export default {
         })
     },
     logout({ commit }) {
-      commit('clearAuth')
       localStorage.removeItem('token')
       localStorage.removeItem('refresh_token')
-      router.replace('/login')
+      commit('clearAuth')
     },
     AutoLogin({ commit }) {
       const token = localStorage.getItem('token')

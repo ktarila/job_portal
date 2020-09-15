@@ -1,3 +1,8 @@
 swagger_ui:
     path: /docs
     controller: api_platform.swagger.action.ui
+
+gesdinet_jwt_refresh_token:
+    path:       /api/token/refresh
+    controller: gesdinet.jwtrefreshtoken::refresh
+

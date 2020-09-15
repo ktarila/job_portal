@@ -8,12 +8,24 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\PositionActions\CreatePosition;
 
 /**
  * @ORM\Entity(repositoryClass=PositionRepository::class)
  * @ApiResource(
- *     normalizationContext={"groups"={"read"}},
- *     denormalizationContext={"groups"={"write"}}
+ *     normalizationContext={"groups"={"position-read"}},
+ *     denormalizationContext={"groups"={"write"}},
+ *     collectionOperations = {
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/positions{_format}",
+ *          },
+ *          "post"={
+ *         "method"="POST",
+ *         "path"="/positions.{_format}",
+ *         "controller"=CreatePosition::class,
+ *     }
+ *      },
  * )
  */
 class Position
@@ -22,13 +34,14 @@ class Position
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"position-read", "write"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank
-     * @Groups({"read", "write"})
+     * @Groups({"position-read", "write"})
      */
     private $name;
 

@@ -5,18 +5,6 @@
       :is-full-page="fullPage"
       :loader="loader"
     />
-    <!-- section body header -->
-    <header
-      aria-label="page caption"
-      class="flex-none flex h-16 bg-gray-100 border-t px-4 items-center"
-    >
-      <h1
-        id="page-caption"
-        class="font-semibold text-lg"
-      >
-        Dashboard
-      </h1>
-    </header>
 
     <!-- main content -->
     <main class="w-full flex-wrap flex min-h-0 border-t">
