@@ -30,6 +30,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.14.0",
         "axios": "^0.20.0",
+        "axios-auth-refresh": "^3.0.0",
         "moment": "^2.28.0",
         "v-calendar": "^1.0.8",
         "vee-validate": "^3.3.11",

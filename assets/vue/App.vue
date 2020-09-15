@@ -69,6 +69,7 @@ export default {
     logout(){
       this.$store.dispatch('logout');
       this.authenticated = false
+      this.$router.push({ path: "/ads/login" });
     }
   },
 }

@@ -73,6 +73,21 @@ export default {
         refresh_token: refresh_token,
         user: user
       })
+    },
+    refresh({ commit }, payload) {
+      let aUser = {fullname: '', email: '', roles: []};
+      aUser.fullname = payload.data.fullname
+      aUser.email = payload.data.email
+      aUser.roles = payload.data.roles
+      // JSON.stringify({"fullname": res.data.fullname, "email": res.data.email, "roles": res.data.roles})
+      localStorage.setItem('token', payload.data.token)
+      localStorage.setItem('refresh_token', payload.data.refresh_token)
+      localStorage.setItem('user', JSON.stringify(aUser))
+      commit('authUser', {
+        token: payload.data.token,
+        refresh_token: payload.data.refresh_token,
+        user: JSON.stringify(aUser)
+      })
     }
   },
   getters: {
@@ -89,5 +104,11 @@ export default {
     error (state) {
       return state.error
     },
+    refreshToken (state) {
+      return state.refresh_token
+    },
+    token(state){
+      return state.token
+    }
   }
 }

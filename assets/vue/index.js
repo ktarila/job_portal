@@ -22,6 +22,10 @@ extend('required', {
 import VDatePicker from 'v-calendar';
 Vue.use(VDatePicker, {});
 
+// axios interceptop
+import interceptorsSetup from './helpers/interceptor'
+interceptorsSetup()
+
 new Vue({
   components: { App },
   template: "<App/>",

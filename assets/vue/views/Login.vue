@@ -130,12 +130,15 @@ export default {
       this.$store.dispatch('login', payload)
         .then(() => {
           if (!this.$store.getters['hasError']) {
-            if (typeof redirect !== 'undefined' && redirect !== '/home') {
+            if (typeof redirect !== 'undefined' && redirect !== '/ads') {
               this.$router.push({ path: redirect });
             } else {
               window.location = "/"
             }
           }
+        })
+        .catch( e => {
+          console.log(e)
         });
 
     },
