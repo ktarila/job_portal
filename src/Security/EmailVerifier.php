@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file is part of a Job Portal Application Symfony Project.
+ *
+ * (c) Patrick Kenekayoro <Patrick.Kenekayoro@outlook.com>.
+ */
+
 namespace App\Security;
 
 use Doctrine\ORM\EntityManagerInterface;

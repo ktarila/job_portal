@@ -8,6 +8,7 @@ use App\Repository\AppUserRepository;
 use App\Repository\UserRepository;
 use App\Utils\RandomToken;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Security as Sec;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,10 +24,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     private $mailer;
+    private $security;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, Sec $security)
     {
         $this->mailer = $mailer;
+        $this->security = $security;
     }
 
 
@@ -61,6 +64,21 @@ class SecurityController extends AbstractController
     */
     public function loginAction(Request $request)
     {
+    }
+
+    /**
+    * @Route("/api/current_user", name="api_current_user", methods={"GET"})
+    * @return JsonResponse
+    */
+    public function currentUserAction(Request $request)
+    {
+        $user = $this->security->getUser();
+        $userArray = [];
+        if ($user instanceof UserInterface) {
+            $userArray = ['fullname' => $user->getFullname(), 'email' => $user->getEmail(), 'roles' => $user->getRoles()];
+        }
+        $response = new JsonResponse(json_encode($userArray));
+        return $response;
     }
 
     /**

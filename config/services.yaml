@@ -27,6 +27,12 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    
+    App\EventListener\JWTAuthenticationSuccessListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+    
+
     gesdinet.jwtrefreshtoken.refresh_token_manager:
         class: App\Doctrine\RefreshTokenManager
         public: true

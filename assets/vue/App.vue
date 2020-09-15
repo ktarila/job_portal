@@ -29,7 +29,7 @@
             class="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded"
             @click="logout"
           >
-            Logout
+            {{ user.fullname }} - Logout
           </button>
         </div>
       </header>
@@ -44,7 +44,8 @@ export default {
     return {
       menuShow: false,
       csrf: '',
-      authenticated: false
+      authenticated: false,
+      user: null
     }
   },
   computed: {
@@ -57,6 +58,7 @@ export default {
     this.$store.dispatch('addToken', token)
     this.$store.dispatch('AutoLogin')
     this.authenticated = this.$store.getters['isAuthenticated']
+    this.user = this.$store.getters['user']
 
   },
   methods: {
