@@ -432,6 +432,7 @@ export default {
 
     },
     setCountries(countries) {
+      console.log(countries)
       this.countries = countries["hydra:member"];
     },
     async submitForm(){

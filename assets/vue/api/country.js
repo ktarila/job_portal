@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axiosApiInstance from '../helpers/axiosApiInstance'
 
 export default {
 
   allCountries(allParams) {
-    return axios.get('/api/countries', {
+    return axiosApiInstance.get('/api/countries', {
       params: allParams
     });
   }

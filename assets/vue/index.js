@@ -23,8 +23,8 @@ import VDatePicker from 'v-calendar';
 Vue.use(VDatePicker, {});
 
 // axios interceptop
-import interceptorsSetup from './helpers/interceptor'
-interceptorsSetup()
+// import interceptorsSetup from './helpers/interceptor'
+// interceptorsSetup()
 
 new Vue({
   components: { App },
