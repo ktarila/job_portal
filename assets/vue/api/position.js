@@ -1,9 +1,10 @@
 import axios from 'axios';
+import axiosApiInstance from '../helpers/axiosApiInstance'
 
 export default {
 
   allPositions(allParams) {
-    return axios.get('/api/positions', {
+    return axiosApiInstance.get('/api/positions', {
       params: allParams
     });
   },

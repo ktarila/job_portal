@@ -3,6 +3,7 @@
     <div class="">
       <!-- section body header -->
       <header
+        v-if="!isLogin"
         class="flex h-16 bg-gray-100 border-t px-4 justify-between items-center"
       >
         <h1
@@ -51,7 +52,10 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters['isAuthenticated']
-    }
+    },
+    isLogin() {
+      return this.$route.name === 'login'
+    },
   },
   created() {
     let token = this.$parent.$el.attributes['data-csrf'].value

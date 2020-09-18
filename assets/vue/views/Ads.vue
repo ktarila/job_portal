@@ -48,7 +48,7 @@
               id="content-caption"
               class="font-semibold"
             >
-              Advertised positions (6)
+              Advertised positions ({{ totalItems }})
             </h2>
           </div>
           <div class="ml-auto">
@@ -97,30 +97,32 @@
             </thead>
             <tbody class="w-full min-h-0 px-4">
               <tr
+                v-for="(position, index) in items"
+                :key="index"
                 role="row"
                 class="hover:bg-blue-100 border-b cursor-pointer"
               >
                 <td class="py-3 px-1">
-                  #12534
+                  #{{ getSerialNumber(index) }}
                 </td>
                 <td class="py-3 px-1">
                   <div class="relative group w-full">
                     <p class="w-full truncate">
-                      Web Developer.
+                      {{ position.name }}
                     </p>
                   </div>
                 </td>
                 <td class="py-3 px-1">
-                  Nigeria
+                  {{ position.country.name }}
                 </td>
                 <td class="py-3 px-1">
-                  Abuja
+                  {{ position.state.name }}
                 </td>
                 <td class="py-3 px-1">
-                  14 July, 2020
+                  {{ dateFormat(position.date_posted) }}
                 </td>
                 <td class="py-3 px-1">
-                  14 Nov, 2020
+                  {{ dateFormat(position.deadline) }}
                 </td>
                 <td class="py-3 px-1">
                   <button class="focus:outline-none bg-blue-600 hover:bg-blue-700 text-white text-sm hover:text-white-700 py-2 px-4 rounded">
@@ -366,6 +368,7 @@
 
 <script>
 import CountryAPI from '../api/country';
+import PositionAPI from '../api/position';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import RecentPositions from './position/RecentPositions'
 export default {
@@ -377,7 +380,7 @@ export default {
   },
   data: function() {
     return {
-      csrf: '',
+      allParams: { page: 1 },
       isLoading: false,
       fullPage: false,
       loader: "bars",
@@ -391,7 +394,12 @@ export default {
         'state': null,
         'deadline': new Date(),
         'description': null,
-      }
+      },
+      fields: ['S/No', 'title', 'country', 'state', 'deadline', 'actions'],
+      items: [],
+      currentPage: 1,
+      perPage: 5,
+      totalItems: 0,
     };
   },
   computed: {
@@ -399,9 +407,17 @@ export default {
       return this.countries[this.selectedCountryIndex].states
     }
   },
+  watch: {
+    currentPage: {
+      handler: function(value) {
+        this.allParams.page = value;
+        this.getAllPositions();
+      }
+    }
+  },
   mounted: function() {
-    this.$data.csrf = this.$store.getters['getCsrfToken']
     this.getAllCountries();
+    this.getAllPositions();
   },
   methods: {
     toggleModal(){
@@ -429,11 +445,29 @@ export default {
           return response.data;
         })
         .catch(err => console.log(err)).then(res => this.setCountries(res));
-
     },
     setCountries(countries) {
-      console.log(countries)
       this.countries = countries["hydra:member"];
+    },
+    getAllPositions() {
+      PositionAPI.allPositions(this.allParams)
+        .then(function(response) {
+          return response.data;
+        })
+        .catch(err => console.log(err.response)).then(res => this.setPositionItems(res));
+
+    },
+    setPositionItems(positions) {
+      //console.log(books);
+      this.items = positions["hydra:member"];
+      this.totalItems = positions["hydra:totalItems"];
+      // console.log(this.items)
+      // console.log(this.totalItems)
+
+    },
+    getSerialNumber(index) {
+      return (index + 1) + ((this.currentPage - 1) * this.perPage);
+
     },
     async submitForm(){
       // this.newPosition.deadline = moment(this.date).format('YYYY-MM-DD');

@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App";
 import router from "./router";
 import store from './store';
+import moment from 'moment';
 
 
 import { extend } from 'vee-validate';
@@ -22,9 +23,11 @@ extend('required', {
 import VDatePicker from 'v-calendar';
 Vue.use(VDatePicker, {});
 
-// axios interceptop
-// import interceptorsSetup from './helpers/interceptor'
-// interceptorsSetup()
+Vue.mixin({
+  methods: {
+    dateFormat: date => moment(date).format("Do MMM, YYYY")
+  }
+})
 
 new Vue({
   components: { App },

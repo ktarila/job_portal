@@ -116,6 +116,7 @@ export default {
     error() {
       return this.$store.getters['error'];
     },
+
   },
   created() {
     document.title = "Login - Job Portal"

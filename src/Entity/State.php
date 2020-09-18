@@ -1,12 +1,18 @@
 <?php
 
+/*
+ * This file is part of a Job Portal Application Symfony Project.
+ *
+ * (c) Patrick Kenekayoro <Patrick.Kenekayoro@outlook.com>.
+ */
+
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\StateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -14,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *     collectionOperations={"get"},
  *     itemOperations={"get"},
- *     normalizationContext={"groups"={"state-read"}},
+ *     normalizationContext={"groups"={"state-read", "position-read"}},
  *     denormalizationContext={"groups"={"write"}}
  * )
  */
@@ -30,7 +36,7 @@ class State
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"state-read", "country-read"})
+     * @Groups({"state-read", "country-read", "position-read"})
      */
     private $name;
 
@@ -49,6 +55,11 @@ class State
     public function __construct()
     {
         $this->positions = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -78,11 +89,6 @@ class State
         $this->country = $country;
 
         return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 
     /**
