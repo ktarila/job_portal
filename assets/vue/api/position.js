@@ -1,5 +1,5 @@
-import axios from 'axios';
 import axiosApiInstance from '../helpers/axiosApiInstance'
+import moment from 'moment'
 
 export default {
 
@@ -9,20 +9,20 @@ export default {
     });
   },
   newPosition(data) {
-    //console.log(data);
-    return axios.post(
+    // console.log(data);
+    return axiosApiInstance.post(
       '/api/positions', {
-        csrf_token: data.csrf_token,
-        title: data.title,
-        isbn: data.isbn,
-        description: data.description,
-        year: parseInt(data.year)
+        name: data.title,
+        country: data.country['@id'],
+        state: data.state['@id'],
+        deadline: moment(data.deadline).format('YYYY-MM-DD'),
+        description: data.description
       }
     );
   },
   updatePosition(data) {
     // console.log(data);
-    return axios.put(
+    return axiosApiInstance.put(
       '/api/positions/'.concat(data.id), {
         csrf_token: data.csrf_token,
         title: data.title,
@@ -34,14 +34,14 @@ export default {
     );
   },
   singlePosition(id) {
-    return axios.get('/api/positions/'.concat(id), {});
+    return axiosApiInstance.get('/api/positions/'.concat(id), {});
   },
   removePosition(payload, csrf_token) {
-    return axios.delete('/api/positions/'.concat(payload.id), { params: { token: csrf_token } });
+    return axiosApiInstance.delete('/api/positions/'.concat(payload.id), { params: { token: csrf_token } });
   },
   changeCover(formData) {
     //console.log(formData);
-    return axios.post('/api/position_media',
+    return axiosApiInstance.post('/api/position_media',
       formData, {
         headers: {
           'Content-Type': 'multipart/form-data',

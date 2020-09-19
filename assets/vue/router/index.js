@@ -1,13 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Ads from "../views/Ads";
+import ListPositions from "../views/position/ListPositions";
 import Login from "../views/Login";
 import store from "../store"
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/ads", name: 'ads', component: Ads, meta: { requiresAuth: true }},
+  { path: "/ads", name: 'list-positions', component: ListPositions, meta: { requiresAuth: true }},
   { path: "/ads/login", name: 'login', component: Login },
   { path: "*", redirect: "/ads" }
 ]

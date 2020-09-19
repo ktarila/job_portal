@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="">
+    <div class="container mx-auto">
       <!-- section body header -->
       <header
         v-if="!isLogin"

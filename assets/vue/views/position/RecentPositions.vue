@@ -1,6 +1,6 @@
 <template>
   <!-- recent positions -->
-  <section class="md:flex flex-wrap p-4 hidden w-1/4 max-w-sm bg-gray-100 min-h-0 overflow-auto">
+  <section class="md:block p-4 hidden w-1/4 max-w-sm bg-gray-100 min-h-0 overflow-auto">
     <h1 class="font-semibold mb-3">
       Recent Positions
     </h1>

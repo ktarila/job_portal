@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '../store'
-import router from '../router'
+// import router from '../router'
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 
 const axiosApiInstance = axios.create({baseURL: ''});
@@ -42,7 +42,8 @@ axiosApiInstance.interceptors.response.use(
   error => {
     if (error && error.response && error.response.status === 401) {
       // 401 error redirect to login
-      router.push({path: '/ads/login'})
+      // router.push({path: '/ads/login'})
+      window.location = "/ads/login"
       
       return Promise.reject(error);
     }

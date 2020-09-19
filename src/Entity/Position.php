@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=PositionRepository::class)
  * @ApiResource(
+ *     attributes={"order"={"id": "DESC"}},
  *     normalizationContext={"groups"={"position-read"}},
  *     denormalizationContext={"groups"={"write"}},
  *     collectionOperations = {

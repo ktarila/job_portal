@@ -7,15 +7,10 @@
     />
 
     <!-- main content -->
-    <main class="w-full flex-wrap flex min-h-0 border-t">
-      <!-- recent positions -->
-      <RecentPositions />
-      
-
+    <main class="min-h-0 border-t">
       <!-- section content -->
       <section
-        aria-label="main content"
-        class="w-full md:w-3/4 min-h-0 border-l"
+        class="w-full min-h-0 border-l border-r border-b"
       >
         <div class="search-form w-full pt-5 px-5">
           <div class="flex flex-wrap -mx-3">
@@ -134,6 +129,11 @@
           </table>
         </div>
 
+        <Pagination
+          :page-count="Math.ceil(totalItems / perPage)"
+          :current-page="allParams.page"
+          @page-changed="fetchData"
+        />
         <!-- content footer, currently hidden -->
         <footer
           aria-label="content footer"
@@ -367,16 +367,16 @@
 </template>
 
 <script>
-import CountryAPI from '../api/country';
-import PositionAPI from '../api/position';
+import CountryAPI from '../../api/country';
+import PositionAPI from '../../api/position';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-import RecentPositions from './position/RecentPositions'
+import Pagination from '../Pagination'
 export default {
-  name: "Ads",
+  name: "ListPositions",
   components: {
-    RecentPositions,
     ValidationProvider,
     ValidationObserver,
+    Pagination
   },
   data: function() {
     return {
@@ -397,8 +397,7 @@ export default {
       },
       fields: ['S/No', 'title', 'country', 'state', 'deadline', 'actions'],
       items: [],
-      currentPage: 1,
-      perPage: 5,
+      perPage: 10,
       totalItems: 0,
     };
   },
@@ -410,6 +409,7 @@ export default {
   watch: {
     currentPage: {
       handler: function(value) {
+        console.log(value)
         this.allParams.page = value;
         this.getAllPositions();
       }
@@ -449,7 +449,9 @@ export default {
     setCountries(countries) {
       this.countries = countries["hydra:member"];
     },
-    getAllPositions() {
+    getAllPositions(page = 1) {
+      this.allParams.page = page
+      // console.log("fetching positions")
       PositionAPI.allPositions(this.allParams)
         .then(function(response) {
           return response.data;
@@ -458,15 +460,17 @@ export default {
 
     },
     setPositionItems(positions) {
-      //console.log(books);
       this.items = positions["hydra:member"];
       this.totalItems = positions["hydra:totalItems"];
-      // console.log(this.items)
-      // console.log(this.totalItems)
 
     },
+    fetchData(page) {
+      // Your AJAX or other code to display the data for the newly selected currentPage
+      // this.currentPage = selectedPage
+      this.getAllPositions(page)
+    },
     getSerialNumber(index) {
-      return (index + 1) + ((this.currentPage - 1) * this.perPage);
+      return (index + 1) + ((this.allParams.page - 1) * this.perPage);
 
     },
     async submitForm(){
@@ -475,15 +479,18 @@ export default {
       const isValid = await this.$refs.observer.validate();
       if (isValid) {
         this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-          this.showModal = !this.showModal;
-        }, 3000);
-        
+        let _this = this;
+        PositionAPI.newPosition(this.newPosition)
+          .then(function(response) {
+            console.log(response)
+            _this.items.unshift(response.data)
+            _this.totalItems++
+            _this.isLoading = false
+            _this.showModal = false
+            return response.data;
+          })
+          .catch(err => console.log(err));
       }
-
-      console.log(this.newPosition) 
-      
 
     }
   }
