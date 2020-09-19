@@ -32,6 +32,7 @@
         >
           <a
             v-if="page.number"
+            class="hover:text-yellow-700"
             @click="setCurrentPage(page.number)"
           >
             {{ page.number }}

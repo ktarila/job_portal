@@ -16,21 +16,40 @@
           <div class="flex flex-wrap -mx-3">
             <div class="w-full max-w-sm px-3 mb-3">
               <input
+                v-model="allParams.name"
                 class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight border-gray-200 focus:outline-none focus:bg-white"
                 type="text"
                 placeholder="Search title"
               >
             </div>
             <div class="w-full max-w-sm px-3 mb-3">
-              <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border-gray-200 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-                type="text"
-                placeholder="Search location"
+              <select
+                id="search-country"
+                v-model="allParams.country"
+                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
+                <option
+                  value=""
+                  disabled
+                  selected
+                >
+                  Filter by country
+                </option>
+                <option
+                  v-for="(country, index) in countries"
+                  :key="index"
+                  :value="country.id"
+                >
+                  {{ country.name }}
+                </option>
+              </select> 
             </div>
 
             <div class="w-full px-3 md:px-0 sm:w-auto items-center flex md:-mt-3">
-              <button class="bg-green-800 text-white active:bg-green-600 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">
+              <button
+                class="bg-green-800 text-white active:bg-green-600 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" 
+                @click="performSearch"
+              >
                 Search
               </button>
             </div>
@@ -380,7 +399,7 @@ export default {
   },
   data: function() {
     return {
-      allParams: { page: 1 },
+      allParams: { page: 1, name: "", country: "" },
       isLoading: false,
       fullPage: false,
       loader: "bars",
@@ -388,6 +407,7 @@ export default {
       showModal: false,
       selectedCountryIndex: null,
       selectedStateIndex: null,
+      searchCountry: null,
       newPosition: {
         'title': null,
         'country': null,
@@ -451,7 +471,7 @@ export default {
     },
     getAllPositions(page = 1) {
       this.allParams.page = page
-      // console.log("fetching positions")
+
       PositionAPI.allPositions(this.allParams)
         .then(function(response) {
           return response.data;
@@ -468,6 +488,11 @@ export default {
       // Your AJAX or other code to display the data for the newly selected currentPage
       // this.currentPage = selectedPage
       this.getAllPositions(page)
+    },
+    performSearch() {
+      // Your AJAX or other code to display the data for the newly selected currentPage
+      // this.currentPage = selectedPage
+      this.getAllPositions(1)
     },
     getSerialNumber(index) {
       return (index + 1) + ((this.allParams.page - 1) * this.perPage);

@@ -8,7 +8,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Controller\PositionActions\CreatePosition;
 use App\Repository\PositionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -47,8 +49,9 @@ class Position
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Name must not be empty")
      * @Groups({"position-read", "write"})
+     * @ApiFilter(SearchFilter::class, strategy="partial")
      */
     private $name;
 
@@ -57,6 +60,7 @@ class Position
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Type(type="App\Entity\Country")
      * @Groups({"position-read", "write"})
+     * @ApiFilter(SearchFilter::class, strategy="exact")
      */
     private $country;
 
@@ -89,7 +93,7 @@ class Position
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\NotBlank
+     * @Assert\NotBlank(message="Description must not be empty")
      * @Groups({"position-read", "write"})
      */
     private $description;

@@ -76,7 +76,7 @@
                 <div class="mt-10 flex justify-between">
                   <a
                     class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                    href="#"
+                    href="/reset-password"
                   >
                     Forgot Password?
                   </a>
