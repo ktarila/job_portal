@@ -77,14 +77,20 @@
         </nav>
       </div>
     </div>
+    
     <div class="container mx-auto">
+      <Notification />
       <router-view />
     </div>
   </div>
 </template>
 <script>
+import Notification from './views/Notification'
 export default {
   name: "App",
+  components: {
+    Notification,
+  },
   data() {
     return {
       menuShow: false,
@@ -102,8 +108,6 @@ export default {
     },
   },
   created() {
-    let token = this.$parent.$el.attributes['data-csrf'].value
-    this.$store.dispatch('addToken', token)
     this.$store.dispatch('AutoLogin')
     this.authenticated = this.$store.getters['isAuthenticated']
     this.user = this.$store.getters['user']

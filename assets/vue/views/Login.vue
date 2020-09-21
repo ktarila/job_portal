@@ -136,10 +136,10 @@ export default {
             } else {
               window.location = "/"
             }
-          }
+          } 
         })
-        .catch( e => {
-          console.log(e)
+        .catch( () => {
+          // console.log(e)
         });
 
     },

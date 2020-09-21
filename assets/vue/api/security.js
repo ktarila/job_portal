@@ -1,8 +1,9 @@
-import axiosApiInstance from '../helpers/axiosApiInstance'
+// import axiosApiInstance from '../helpers/axiosApiInstance'
+import axios from 'axios'
 
 export default {
   login (email, password) {
-    return axiosApiInstance.post(
+    return axios.post(
       '/api/login_check',
       {
         'email': email,

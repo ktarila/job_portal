@@ -1,22 +1,35 @@
 
 export default {
   state: {
-    csrf: null,
+    notification: null,
+    type: null
   },
   mutations: {
-    addCsrf(state, csrfToken) {
-      state.csrf = csrfToken
+    addMessage(state, message) {
+      state.notification = message.notification
+      state.type = message.type
+    },
+    removeMessage(state) {
+      state.notification = null
+      state.type = null
     },
   },
   actions: {
-    addToken({ commit }, csrfToken) {
-      commit('addCsrf', csrfToken)
+    addNotification({ commit }, message) {
+      console.log(message)
+      commit('addMessage', message)
+    },
 
+    clearNotification({ commit }) {
+      commit('removeMessage')
     },
   },
   getters: {
-    getCsrfToken(state) {
-      return state.csrf
+    getNotificationMessage(state) {
+      return state.notification
+    },
+    getNotificationType(state) {
+      return state.type
     },
   }
 }

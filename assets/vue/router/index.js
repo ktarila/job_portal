@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import ListPositions from "../views/position/ListPositions";
+import ShowPosition from "../views/position/ShowPosition";
+import AddPosition from "../views/position/AddPosition";
 import Login from "../views/Login";
 import store from "../store"
 
@@ -8,6 +10,8 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: "/ads", name: 'list-positions', component: ListPositions, meta: { requiresAuth: true }},
+  { path: "/ads/new", name: 'add-position', component: AddPosition, meta: { requiresAuth: true }},
+  { path: "/ads/show/:id", name: 'show-position', component: ShowPosition, meta: { requiresAuth: true }},
   { path: "/ads/login", name: 'login', component: Login },
   { path: "*", redirect: "/ads" }
 ]
