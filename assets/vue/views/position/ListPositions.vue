@@ -9,7 +9,7 @@
             <div class="w-full max-w-sm px-3 mb-3">
               <input
                 v-model="allParams.name"
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight border-gray-200 focus:outline-none focus:bg-white"
+                class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight border-gray-200 focus:outline-none focus:bg-white"
                 type="text"
                 placeholder="Search title"
               >
@@ -18,7 +18,7 @@
               <select
                 id="search-country"
                 v-model="allParams.country"
-                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="block w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               >
                 <option
                   value=""
@@ -129,7 +129,8 @@
                 </td>
                 <td class="py-3 px-1">
                   <button class="focus:outline-none bg-blue-600 hover:bg-blue-700 text-white text-sm hover:text-white-700 py-2 px-4 rounded">
-                    Apply
+                    <i class="fas fa-clipboard-check mr-3" />
+                    <span>Apply</span>
                   </button>
                 </td>
               </tr>

@@ -24,12 +24,11 @@ export default {
     // console.log(data);
     return axiosApiInstance.put(
       '/api/positions/'.concat(data.id), {
-        csrf_token: data.csrf_token,
-        title: data.title,
-        isbn: data.isbn,
-        description: data.description,
-        id: data.id,
-        year: parseInt(data.year)
+        name: data.title,
+        country: data.country['@id'],
+        state: data.state['@id'],
+        deadline: moment(data.deadline).format('YYYY-MM-DD'),
+        description: data.description
       }
     );
   },

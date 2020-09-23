@@ -31,7 +31,7 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"country-read"})
+     * @Groups({"country-read", "position-read"})
      */
     private $id;
 

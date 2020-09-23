@@ -30,7 +30,7 @@ class State
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"state-read", "country-read"})
+     * @Groups({"state-read", "country-read", "position-read"})
      */
     private $id;
 
