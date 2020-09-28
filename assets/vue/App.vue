@@ -2,7 +2,7 @@
   <div class="">
     <div class="flex flex-wrap mb-5">
       <div class="w-full">
-        <nav class="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-blue-800">
+        <nav class="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-indigo-600">
           <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
             <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
               <a
@@ -40,12 +40,12 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a
+                  <router-link
                     class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                    href="#"
+                    to="/ads/profile"
                   >
                     Profile
-                  </a>
+                  </router-link>
                 </li>
                 <li class="nav-item">
                   <a
