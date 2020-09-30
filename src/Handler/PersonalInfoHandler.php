@@ -31,12 +31,12 @@ class PersonalInfoHandler
         $this->csrfManager = $csrfManager;
     }
 
-    public function create(PersonalInfo $personalInfo, $csrf = null)
+    public function create(PersonalInfo $personalInfo)
     {
         $this->validator->validate($personalInfo);
 
-        // $this->entityManager->persist($personalInfo);
-        // $this->entityManager->flush();
+        $this->entityManager->persist($personalInfo);
+        $this->entityManager->flush();
 
         return $personalInfo;
     }

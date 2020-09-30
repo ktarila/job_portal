@@ -12,7 +12,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\PersonalInfoActions\CreatePersonalInfo;
 use App\Repository\PersonalInfoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PersonalInfoRepository::class)
@@ -26,11 +28,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *              "path"="/personal-info.{_format}",
  *          },
  *          "post"={
- *         "method"="POST",
- *         "path"="/personal-info.{_format}",
- *         "controller"=CreatePersonalInfo::class,
- *     }
- *      },
+ *              "method"="POST",
+ *              "deserialize"=false,
+ *              "path"="/personal-info.{_format}",
+ *              "controller"=CreatePersonalInfo::class,
+ *         }
+ *   },
+ * )
+ * @UniqueEntity(
+ *     fields={"userAccount"},
+ *     errorPath="userAccount",
+ *     message="Personal Information already created for user."
  * )
  */
 class PersonalInfo
@@ -46,6 +54,7 @@ class PersonalInfo
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"info-read", "write"})
+     * @Assert\NotBlank(message="Firstname must not be empty")
      */
     private $firstname;
 
@@ -58,6 +67,7 @@ class PersonalInfo
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"info-read", "write"})
+     * @Assert\NotBlank(message="Lastname must not be empty")
      */
     private $lastname;
 
@@ -65,6 +75,12 @@ class PersonalInfo
      * @ORM\OneToOne(targetEntity=PhotoMedia::class, cascade={"persist", "remove"})
      */
     private $avatar;
+
+    /**
+     * @ORM\OneToOne(targetEntity=AppUser::class, inversedBy="personalInfo", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userAccount;
 
     public function getId(): ?int
     {
@@ -115,6 +131,18 @@ class PersonalInfo
     public function setAvatar(?PhotoMedia $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getUserAccount(): ?AppUser
+    {
+        return $this->userAccount;
+    }
+
+    public function setUserAccount(AppUser $userAccount): self
+    {
+        $this->userAccount = $userAccount;
 
         return $this;
     }

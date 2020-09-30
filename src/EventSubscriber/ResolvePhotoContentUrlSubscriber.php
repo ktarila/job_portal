@@ -13,7 +13,7 @@ use ApiPlatform\Core\Util\RequestAttributesExtractor;
 use App\Entity\PhotoMedia;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
@@ -33,7 +33,7 @@ final class ResolvePhotoContentUrlSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onPreSerialize(GetResponseForControllerResultEvent $event): void
+    public function onPreSerialize(ViewEvent $event): void
     {
         $controllerResult = $event->getControllerResult();
         $request = $event->getRequest();
@@ -42,7 +42,7 @@ final class ResolvePhotoContentUrlSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!$attributes = RequestAttributesExtractor::extractAttributes($request) || !is_a($attributes['resource_class'], PhotoMedia::class, true)) {
+        if (!($attributes = RequestAttributesExtractor::extractAttributes($request)) || !is_a($attributes['resource_class'], PhotoMedia::class, true)) {
             return;
         }
 

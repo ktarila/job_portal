@@ -4,7 +4,7 @@ import axiosApiInstance from '../helpers/axiosApiInstance'
 export default {
 
   createPersonalInfo(formData) {
-    //console.log(formData);
+    console.log(formData);
     return axiosApiInstance.post('/api/personal-info',
       formData, {
         headers: {
@@ -13,5 +13,9 @@ export default {
         }
       }
     )
-  }
+  },
+
+  singlePersonalInfo(id) {
+    return axiosApiInstance.get('/api/personal_infos/'.concat(id), {});
+  },
 }

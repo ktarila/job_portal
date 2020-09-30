@@ -3,8 +3,8 @@
     <!-- main content -->
     <main class="min-h-0">
       <!-- section content -->
-      <section class="w-full min-h-0 border-l border-r border-b">
-        <header class="border-blue-800 border-b-2 bg-white rounded-t flex items-center py-3 px-4 mt-4 w-full">
+      <section class="w-full min-h-0 bg-white w-full mb-6 shadow rounded">
+        <header class="border-blue-800 border-b-2 bg-white rounded-t flex items-center p-10 mt-4 w-full">
           <div class="flex flex-wrap w-full items-center ">
             <div class="w-1/2">
               <h2
@@ -31,7 +31,7 @@
             </div>
           </div>
         </header>
-        <div class="content flex flex-wrap">
+        <div class="content flex flex-wrap px-5 bg-gray-100">
           <div
             class="desc w-full p-5"
           >

@@ -5,7 +5,7 @@ export default {
   state: {
     token: null,
     refresh_token: null,
-    user: {fullname: null, email: null, roles: []},
+    user: {fullname: null, email: null, roles: [], info: null},
     error: null,
   },
   mutations: {
@@ -26,6 +26,10 @@ export default {
       state.refresh_token = null
       state.user = {}
       state.error = error
+    },
+    setInfo(state, info){
+      console.log(info)
+      state.user.info = info
     }
     
   },
@@ -33,13 +37,13 @@ export default {
 
 
     login({ commit }, payload) {
-
       return SecurityAPI.login(payload.email, payload.password)
         .then(res => {
-          let aUser = {fullname: '', email: '', roles: []};
+          let aUser = {fullname: '', email: '', roles: [], info: ''};
           aUser.fullname = res.data.fullname
           aUser.email = res.data.email
           aUser.roles = res.data.roles
+          aUser.info = res.data.info
           // JSON.stringify({"fullname": res.data.fullname, "email": res.data.email, "roles": res.data.roles})
           localStorage.setItem('token', res.data.token)
           localStorage.setItem('refresh_token', res.data.refresh_token)
@@ -75,10 +79,11 @@ export default {
       })
     },
     refresh({ commit }, payload) {
-      let aUser = {fullname: '', email: '', roles: []};
+      let aUser = {fullname: '', email: '', roles: [], info: ''};
       aUser.fullname = payload.data.fullname
       aUser.email = payload.data.email
       aUser.roles = payload.data.roles
+      aUser.info = payload.data.info
       // JSON.stringify({"fullname": res.data.fullname, "email": res.data.email, "roles": res.data.roles})
       localStorage.setItem('token', payload.data.token)
       localStorage.setItem('refresh_token', payload.data.refresh_token)
@@ -88,6 +93,15 @@ export default {
         refresh_token: payload.data.refresh_token,
         user: JSON.stringify(aUser)
       })
+    },
+
+    personalInfoId({ commit }, personalInfoId) {
+      console.log(personalInfoId)
+      let user = localStorage.getItem('user')
+      let jsonUser = JSON.parse(user)
+      jsonUser.info = personalInfoId 
+      localStorage.setItem('user', JSON.stringify(jsonUser))
+      commit('setInfo', personalInfoId)
     }
   },
   getters: {

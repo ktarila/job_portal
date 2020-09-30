@@ -33,6 +33,7 @@ class JWTAuthenticationSuccessListener
         $data['roles'] = $user->getRoles();
         $data['fullname'] = $user->getFullname();
         $data['email'] = $user->getEmail();
+        $data['info'] = $user->getPersonalInfo() ? $user->getPersonalInfo()->getId() : null;
 
         $event->setData($data);
     }

@@ -58,14 +58,14 @@
                 <li class="nav-item">
                   <router-link
                     v-if="!authenticated"
-                    class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                    class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 cursor-pointer"
                     to="/ads/login"
                   >
                     Sign in
                   </router-link>
                   <a
                     v-else
-                    class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
+                    class="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75 cursor-pointer"
                     @click="logout"
                   >
                     {{ user.fullname }} - Logout
