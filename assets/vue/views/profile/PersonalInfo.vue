@@ -2,7 +2,7 @@
   <div class="p-5">
     <div class="flex items-center w-full">
       <img
-        src="https://i.imgur.com/8Km9tLL.jpg"
+        :src="getAvatar"
         class="w-40 md:w-1/6 max-w-40 rounded-full border-solid border-white border-2"
       > 
 
@@ -73,12 +73,17 @@ export default {
       middlename: "",
       lastname: "",
       about: "",
-      personalInfoId: null
+      personalInfoId: null,
+      avatarUrl: null
     }
   },
   computed: {
     getFullname() {
       return this.firstname + " " + this.middlename + " " + this.lastname ;
+    },
+    getAvatar() {
+      let img_src = this.avatarUrl == null ? "/image/avatar.svg" : this.avatarUrl
+      return  img_src
     },
   },
   created() {
@@ -106,6 +111,10 @@ export default {
     },
     setPersonalInfo(res){
       console.log(res)
+      if (res.avatar)
+      {
+        this.avatarUrl = res.avatar.url
+      }
       this.firstname = res.firstname
       this.middlename = res.middlename
       this.lastname = res.lastname
