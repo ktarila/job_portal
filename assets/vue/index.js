@@ -6,7 +6,7 @@ import moment from 'moment';
 
 
 import { extend } from 'vee-validate';
-import { required } from 'vee-validate/dist/rules';
+import { required, image, size } from 'vee-validate/dist/rules';
 
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -16,6 +16,16 @@ Vue.component('loading-overlay', Loading);
 extend('required', {
   ...required,
   message: 'This field is required'
+});
+
+extend('image', {
+  ...image,
+  message: 'Please enter a valid image'
+});
+
+extend('size', {
+  ...size,
+  message: "Size must be less than {size}kb"
 });
 
 

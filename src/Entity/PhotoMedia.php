@@ -10,6 +10,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\PhotoMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -17,11 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BookMediaRepository")
+ * @ORM\Entity(repositoryClass=PhotoMediaRepository::class)
  * @ApiResource(
- *     iri="http://schema.org/BookMedia",
+ *     iri="http://schema.org/PhotoMedia",
  *     normalizationContext={
- *         "groups"={"photo_read"},
+ *         "groups"={"photo_read", "info-read"},
  *     },
  * )
  * @Vich\Uploadable
@@ -32,7 +33,7 @@ class PhotoMedia
      * @var string|null
      *
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"photo_read"})
+     * @Groups({"photo_read", "info-read"})
      */
     public $contentUrl;
 
@@ -45,7 +46,7 @@ class PhotoMedia
      *     mimeTypes = {"image/jpeg", "image/jpg", "image/gif", "image/png"},
      *     mimeTypesMessage = "Please upload a valid Image less than 100KB"
      * )
-     * @Vich\UploadableField(mapping="object_photo", fileNameProperty="filePath")
+     * @Vich\UploadableField(mapping="photo_media", fileNameProperty="filePath")
      */
     public $file;
 
@@ -53,15 +54,16 @@ class PhotoMedia
      * @var string|null
      *
      * @ORM\Column(nullable=false, unique=true)
-     * @Groups({"photo_read"})
      */
     public $filePath;
+
     /**
      * @var int|null
      *
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue
      * @ORM\Id
+     * @Groups({"photo_read", "info-read"})
      */
     protected $id;
 
@@ -72,5 +74,13 @@ class PhotoMedia
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @Groups({"photo_read", "info-read"})
+     */
+    public function getUrl(): string
+    {
+        return "/media/photo/{$this->filePath}";
     }
 }

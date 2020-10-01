@@ -47,7 +47,7 @@ class PersonalInfo
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"info-read", "write"})
+     * @Groups({"info-read"})
      */
     private $id;
 
@@ -73,6 +73,7 @@ class PersonalInfo
 
     /**
      * @ORM\OneToOne(targetEntity=PhotoMedia::class, cascade={"persist", "remove"})
+     * @Groups({"info-read"})
      */
     private $avatar;
 

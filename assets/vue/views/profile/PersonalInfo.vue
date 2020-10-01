@@ -105,6 +105,7 @@ export default {
       
     },
     setPersonalInfo(res){
+      console.log(res)
       this.firstname = res.firstname
       this.middlename = res.middlename
       this.lastname = res.lastname

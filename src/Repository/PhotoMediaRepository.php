@@ -8,7 +8,7 @@
 
 namespace App\Repository;
 
-use App\Entity\State;
+use App\Entity\PhotoMedia;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,11 +18,11 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method State[]    findAll()
  * @method State[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StateRepository extends ServiceEntityRepository
+class PhotoMediaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, State::class);
+        parent::__construct($registry, PhotoMedia::class);
     }
 
     // /**

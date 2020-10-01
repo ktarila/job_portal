@@ -26,7 +26,7 @@ yarn-error.log
 ###< lexik/jwt-authentication-bundle ###
 
 #ignore pdf files
-/public/media/avatar/*
+/public/media/photo/*
 
 # exception to the rule
-!/public/media/avatar/.gitkeep
+!/public/media/photo/.gitkeep

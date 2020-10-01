@@ -26,6 +26,36 @@
           >
             <form class="w-full">
               <div class="flex flex-wrap mb-6">
+                <div class="w-full my-5">
+                  <validation-provider
+                    ref="avatarProvider"
+                    v-slot="{ validate, errors }"
+                    rules="image|size:100"
+                  >
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      :class="{ 'text-red-700': errors.length > 0 }"
+                      for="grid-avatar"
+                    > Photo </label>
+                    <div id="preview mb-5">
+                      <img
+                        v-if="url"
+                        :src="url"
+                        class="mb-5 max-w-40 rounded-full"
+                      >
+                    </div>
+                  
+                    <input
+                      id="grid-avatar"
+                      ref="avatarInput"
+                      class="cursor-pointer"
+                      type="file"
+                      name="avatar"
+                      @change="onFileChange"
+                    >
+                    <span class="text-red-400 text-sm italic block">{{ errors[0] }}</span>
+                  </validation-provider>
+                </div>
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <validation-provider
                     v-slot="{ errors }"
@@ -161,7 +191,9 @@ export default {
       isLoading: false,
       fullPage: false,
       loader: "bars",
+      url: null,
       newPersonalInfo: {
+        'avatar': null,
         'firstname': "",
         'lastname': "",
         'middlename': "",
@@ -176,8 +208,19 @@ export default {
         'lastname': "",
         'middlename': "",
         'about': "",
+        'avatar': null,
       };
+      this.url = null;
+      this.$refs.avatarInput.value='';
       this.$refs.observer.reset();
+    },
+    async onFileChange(e) {
+      const { valid } = await this.$refs.avatarProvider.validate(e);
+      if (valid) {
+        const file = e.target.files[0];
+        this.newPersonalInfo.avatar = file
+        this.url = URL.createObjectURL(file);
+      }
     },
     async submitForm(){
       const isValid = await this.$refs.observer.validate();
@@ -203,6 +246,7 @@ export default {
     }, 
     getFormData(){
       let formData = new FormData()
+      formData.append('avatar', this.newPersonalInfo.avatar)
       formData.append('firstname', this.newPersonalInfo.firstname)
       formData.append('middlename', this.newPersonalInfo.middlename)
       formData.append('lastname', this.newPersonalInfo.lastname)
