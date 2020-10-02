@@ -6,6 +6,7 @@ import AddPosition from "../views/position/AddPosition";
 import UpdatePosition from "../views/position/UpdatePosition";
 import Profile from "../views/profile/Profile";
 import NewPersonalInfo from "../views/profile/NewPersonalInfo";
+import UpdatePersonalInfo from "../views/profile/UpdatePersonalInfo";
 import Login from "../views/Login";
 import store from "../store"
 
@@ -18,6 +19,7 @@ const routes = [
   { path: "/ads/update/:id", name: 'update-position', component: UpdatePosition, meta: { requiresAuth: true }},
   { path: "/ads/profile", name: 'profile', component: Profile, meta: { requiresAuth: true }},
   { path: "/ads/personal-info", name: 'new-personal-info', component: NewPersonalInfo, meta: { requiresAuth: true }},
+  { path: "/ads/personal-info/update/:id", name: 'update-personal-info', component: UpdatePersonalInfo, meta: { requiresAuth: true }},
   { path: "/ads/login", name: 'login', component: Login },
   { path: "*", redirect: "/ads" }
 ]

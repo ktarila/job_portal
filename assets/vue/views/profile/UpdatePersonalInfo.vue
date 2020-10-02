@@ -30,7 +30,7 @@
                   <validation-provider
                     ref="avatarProvider"
                     v-slot="{ validate, errors }"
-                    rules="required|image|size:100"
+                    rules="image|size:100"
                   >
                     <label
                       class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -204,7 +204,7 @@
               class="text-green-800 bg-transparent border border-solid border-green-900 hover:bg-green-900 hover:text-white active:bg-green-700 font-bold  text-sm px-4 py-2 rounded outline-none focus:outline-none mr-3 mb-1"
               type="button"
               style="transition: all .15s ease"
-              @click="clearForm()"
+              @click="getPersonalInfo(newPersonalInfo.id)"
             >
               Reset
             </button>
@@ -214,7 +214,7 @@
               style="transition: all .15s ease"
               @click="submitForm()"
             >
-              Add Info
+              Update
             </button>
           </div>
         </div> 
@@ -228,7 +228,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import PersonalInfoApi from '../../api/personalInfo'
 import store from '../../store'
 export default {
-  name: "NewPersonalInfo",
+  name: "UpdatePersonalInfo",
   components: {
     ValidationProvider,
     ValidationObserver,
@@ -239,8 +239,9 @@ export default {
       fullPage: false,
       loader: "bars",
       url: null,
+      avatar: null,
       newPersonalInfo: {
-        'avatar': null,
+        'id': "",
         'firstname': "",
         'lastname': "",
         'middlename': "",
@@ -250,24 +251,15 @@ export default {
       },
     };
   },
+  mounted: function() {
+    this.getPersonalInfo(this.$route.params.id);
+  },
   methods: {
-    clearForm(){
-      this.newPersonalInfo = {
-        'firstname': "",
-        'lastname': "",
-        'middlename': "",
-        'about': "",
-        'avatar': null,
-      };
-      this.url = null;
-      this.$refs.avatarInput.value='';
-      this.$refs.observer.reset();
-    },
     async onFileChange(e) {
       const { valid } = await this.$refs.avatarProvider.validate(e);
       if (valid) {
         const file = e.target.files[0];
-        this.newPersonalInfo.avatar = file
+        this.avatar = file
         this.url = URL.createObjectURL(file);
       }
     },
@@ -275,16 +267,13 @@ export default {
       const isValid = await this.$refs.observer.validate();
       if (isValid) {
         this.isLoading = true;
-        this.isLoading = false;
-        let formData = this.getFormData();
         let _this = this;
-        PersonalInfoApi.createPersonalInfo(formData)
+        PersonalInfoApi.updatePersonalInfo(this.newPersonalInfo)
           .then(function(response) {
             _this.isLoading = false
-            _this.clearForm()
             return response.data
           }).then(data => {
-            let notification = {notification: data.lastname + " added", type: "success"}
+            let notification = {notification: data.lastname + " updated", type: "success"}
             store.dispatch('addNotification', notification)
             console.log(data)
             store.dispatch('personalInfoId', data.id)
@@ -294,18 +283,19 @@ export default {
           .catch(err => console.log(err.response));
       }
     }, 
-    getFormData(){
-      let formData = new FormData()
-      formData.append('avatar', this.newPersonalInfo.avatar)
-      formData.append('firstname', this.newPersonalInfo.firstname)
-      formData.append('middlename', this.newPersonalInfo.middlename)
-      formData.append('lastname', this.newPersonalInfo.lastname)
-      formData.append('about', this.newPersonalInfo.about)
-      formData.append('phone', this.newPersonalInfo.phone)
-      formData.append('email', this.newPersonalInfo.email)
-
-      return formData;
-    }
+    getPersonalInfo(id) {
+      PersonalInfoApi.singlePersonalInfo(id)
+        .then(function(response) {
+          return response.data;
+        })
+        .catch(err => console.log(err)).then(res => this.setPersonalInfo(res));
+    },
+    setPersonalInfo(res){
+      let info = {id: res.id, firstname: res.firstname, middlename: res.middlename, lastname: res.lastname, about: res.about, phone: res.phone, email: res.email}
+      this.newPersonalInfo = info
+      this.url = res.avatar.url
+      this.$refs.avatarInput.value='';
+    },
   }
 };
 </script>

@@ -25,12 +25,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     collectionOperations = {
  *          "get"={
  *              "method"="GET",
- *              "path"="/personal-info.{_format}",
+ *              "path"="/personal_info.{_format}",
  *          },
  *          "post"={
  *              "method"="POST",
  *              "deserialize"=false,
- *              "path"="/personal-info.{_format}",
+ *              "path"="/personal_info.{_format}",
  *              "controller"=CreatePersonalInfo::class,
  *         }
  *   },
