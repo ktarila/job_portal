@@ -56,6 +56,51 @@
                     <span class="text-red-400 text-sm italic block">{{ errors[0] }}</span>
                   </validation-provider>
                 </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      id="grid-email"
+                      v-model="newPersonalInfo.email"
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      :class="{ 'border-red-400': errors.length > 0 }"
+                      type="text"
+                      placeholder="Email"
+                    >
+                    <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
+                  </validation-provider>
+                </div>
+
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <validation-provider
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <label
+                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      for="grid-phone"
+                    >
+                      Phone
+                    </label>
+                    <input
+                      id="grid-firsname"
+                      v-model="newPersonalInfo.phone"
+                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      :class="{ 'border-red-400': errors.length > 0 }"
+                      type="text"
+                      placeholder="Phone"
+                    >
+                    <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
+                  </validation-provider>
+                </div>
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <validation-provider
                     v-slot="{ errors }"
@@ -198,6 +243,8 @@ export default {
         'lastname': "",
         'middlename': "",
         'about': "",
+        'phone': "",
+        'email': ""
       },
     };
   },
@@ -251,6 +298,8 @@ export default {
       formData.append('middlename', this.newPersonalInfo.middlename)
       formData.append('lastname', this.newPersonalInfo.lastname)
       formData.append('about', this.newPersonalInfo.about)
+      formData.append('phone', this.newPersonalInfo.phone)
+      formData.append('email', this.newPersonalInfo.email)
 
       return formData;
     }

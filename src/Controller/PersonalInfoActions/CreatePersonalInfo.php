@@ -13,25 +13,31 @@ use App\Entity\PhotoMedia;
 use App\Handler\PersonalInfoHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CreatePersonalInfo
 {
     private $personalInfoHandler;
     private $security;
+    private $serializer;
 
-    public function __construct(PersonalInfoHandler $personalInfoHandler, Security $security)
+    public function __construct(PersonalInfoHandler $personalInfoHandler, Security $security, SerializerInterface $serializer)
     {
         $this->personalInfoHandler = $personalInfoHandler;
         $this->security = $security;
+        $this->serializer = $serializer;
     }
 
     public function __invoke(Request $request): PersonalInfo
     {
         $user = $this->security->getUser();
         $formData = $request->request->all();
+        $json_data = json_encode($formData);
+        // dump($json_data);
+        $data = $this->serializer->deserialize($json_data, PersonalInfo::class, 'json', ['groups' => ['write']]);
+        // dump($data);
         $avatar = $request->files->get('avatar');
-        dump($avatar);
-        $data = $this->createObject($formData);
+        // $data = $this->createObject($formData);
         $data->setUserAccount($user);
 
         $photoMedia = new PhotoMedia();
@@ -41,23 +47,5 @@ class CreatePersonalInfo
         $this->personalInfoHandler->create($data);
 
         return $data;
-    }
-
-    public function createObject($data): PersonalInfo
-    {
-        $info = new PersonalInfo();
-        if (isset($data['firstname'])) {
-            $info->setFirstname($data['firstname']);
-        }
-
-        if (isset($data['middlename'])) {
-            $info->setMiddlename($data['middlename']);
-        }
-
-        if (isset($data['lastname'])) {
-            $info->setLastname($data['lastname']);
-        }
-
-        return $info;
     }
 }

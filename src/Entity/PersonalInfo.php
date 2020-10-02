@@ -83,6 +83,27 @@ class PersonalInfo
      */
     private $userAccount;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"info-read", "write"})
+     * @Assert\Email(message="Enter a valid email address")
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     * @Groups({"info-read", "write"})
+     * @Assert\NotBlank(message="Phone must not be empty")
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Groups({"info-read", "write"})
+     * @Assert\NotBlank(message="About field must not be empty")
+     */
+    private $about;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -144,6 +165,42 @@ class PersonalInfo
     public function setUserAccount(AppUser $userAccount): self
     {
         $this->userAccount = $userAccount;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    public function setAbout(string $about): self
+    {
+        $this->about = $about;
 
         return $this;
     }
