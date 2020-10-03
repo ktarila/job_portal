@@ -53,6 +53,10 @@
                       @change="onFileChange"
                     >
                     <span class="text-red-400 text-sm italic block">{{ errors[0] }}</span>
+                    <small
+                      v-if="hasViolation('avatar.file')"
+                      class="text-red-400"
+                    >{{ violation('avatar.file') }} </small>
                   </validation-provider>
                 </div>
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -246,6 +250,7 @@ export default {
     };
   },
   mounted: function() {
+    this.$store.dispatch('formerror/clearViolations')
     this.getPersonalInfo(this.$route.params.id);
   },
   methods: {
@@ -268,19 +273,24 @@ export default {
             console.log(data)
           })
           .catch(err => {
-            console.log(err.response)
+            // console.log(err.response)
             _this.avatar = null
             _this.url = null
             _this.$refs.avatarInput.value='';
-            let msg = "";
-            if (typeof err.response.data['hydra:description'] !== 'undefined') {
-              msg = err.response.data['hydra:description']
-            }
-            if (typeof err.response.data['detail'] !== 'undefined') {
-              msg = err.response.data['detail']
-            }
-            let notification = {notification:  msg, type: "error"}
-            store.dispatch('addNotification', notification)
+            // let msg = "";
+            // if (typeof err.response.data['hydra:description'] !== 'undefined') {
+            //   msg = err.response.data['hydra:description']
+            // }
+            // if (typeof err.response.data['detail'] !== 'undefined') {
+            //   msg = err.response.data['detail']
+            // }
+            // let notification = {notification:  msg, type: "error"}
+            // store.dispatch('addNotification', notification)
+
+            // ADD FIELD VIOLATION
+            let error = err.response.data
+            error['propertyNameCheck'] = "avatar.file";
+            this.$store.dispatch('formerror/setViolation', error);
           });
       }
       
@@ -322,6 +332,17 @@ export default {
       let formData = new FormData()
       formData.append('avatar', this.avatar)
       return formData;
+    },
+    hasViolation(field) {
+      if (typeof(this.$store.getters['formerror/getFieldViolation'](field)) === "undefined") {
+        return false;
+      } 
+      return this.$store.getters['formerror/getFieldViolation'](field) !== null;
+
+    },
+    violation(field) {
+      return this.$store.getters['formerror/getFieldViolation'](field);
+      //return this.$store.getters['formerror/hasDescriptionViolations'];
     },
   }
 };

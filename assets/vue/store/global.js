@@ -16,7 +16,7 @@ export default {
   },
   actions: {
     addNotification({ commit }, message) {
-      console.log(message)
+      // console.log(message)
       commit('addMessage', message)
     },
 

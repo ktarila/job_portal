@@ -44,7 +44,7 @@ class PhotoMedia
      * @Assert\File(
      *     maxSize = "100K",
      *     mimeTypes = {"image/jpeg", "image/jpg", "image/gif", "image/png"},
-     *     mimeTypesMessage = "Please upload a valid Image less than 100KB"
+     *     mimeTypesMessage = "Please upload a valid Image(jpg, png, gif, jpeg) less than 100KB"
      * )
      * @Vich\UploadableField(mapping="photo_media", fileNameProperty="filePath")
      */
