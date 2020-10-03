@@ -18,7 +18,7 @@ export default {
       if (typeof(state['fields'][propertyName]) === "undefined") {
         Vue.set(state['fields'], propertyName, null);
       }
-      console.log(errorAll)
+      // console.log(errorAll)
       let propObj = error.filter(p => p.propertyPath == propertyName);
       if (propObj.length > 0) {
         state['fields'][propertyName] = propObj.map(a => a.message).join(' ');
@@ -27,9 +27,8 @@ export default {
       }
     },
     ['CLEAR_ERROR'](state) {
-      //state.isbnError = null;
       let setAll = (obj, val) => Object.keys(obj).forEach(k => obj[k] = val);
-      // let setNull = state => setAll(state['fields'], null);
+      // set all fields to null
       setAll(state['fields'], null)
     },
   },

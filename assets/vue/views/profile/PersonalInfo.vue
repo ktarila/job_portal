@@ -52,8 +52,8 @@
     </p>
 
     <div class="font-light border-t border-gray-200 text-gray-800 my-5 text-lg">
-      <span class="w-full block my-1"><span class="w-2 inline-block text-indigo-800 mr-10 mt-10"><i class="fas fa-envelope" /></span> Patrick.Kenekayoro@outlook.com</span>
-      <span class="w-full block my-1"><span class="w-2 inline-block text-indigo-800 mr-10"><i class="fas fa-phone-square" /></span> +234(0)12345678</span>
+      <span class="w-full block my-1"><span class="w-2 inline-block text-indigo-800 mr-10 mt-10"><i class="fas fa-envelope" /></span> {{ email }}</span>
+      <span class="w-full block my-1"><span class="w-2 inline-block text-indigo-800 mr-10"><i class="fas fa-phone-square" /></span> {{ phone }}</span>
       <div class="w-full flex block my-1">
         <span class="w-2 text-indigo-800 mr-10"><i class="fas fa-map-marked-alt" /></span>
         <div>
