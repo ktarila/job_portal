@@ -74,6 +74,7 @@ class PersonalInfo
     /**
      * @ORM\OneToOne(targetEntity=PhotoMedia::class, cascade={"persist", "remove"})
      * @Groups({"info-read"})
+     * @Assert\Valid
      */
     private $avatar;
 

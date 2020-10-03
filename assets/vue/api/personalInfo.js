@@ -25,4 +25,16 @@ export default {
       '/api/personal_infos/'.concat(data.id), data
     );
   },
+
+  changeAvatar(formData, id) {
+    // console.log(formData);
+    return axiosApiInstance.post('/api/personal_info/update-avatar/'.concat(id),
+      formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'accept': 'application/ld+json'
+        }
+      }
+    )
+  }
 }

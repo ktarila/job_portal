@@ -42,7 +42,7 @@ class PhotoMedia
      *
      * @Assert\NotNull(groups={"photo_object_create"})
      * @Assert\File(
-     *     maxSize = "300K",
+     *     maxSize = "100K",
      *     mimeTypes = {"image/jpeg", "image/jpg", "image/gif", "image/png"},
      *     mimeTypesMessage = "Please upload a valid Image less than 100KB"
      * )

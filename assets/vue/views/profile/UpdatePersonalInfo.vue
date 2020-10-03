@@ -44,7 +44,6 @@
                         class="mb-5 max-w-40 rounded-full"
                       >
                     </div>
-                  
                     <input
                       id="grid-avatar"
                       ref="avatarInput"
@@ -56,7 +55,6 @@
                     <span class="text-red-400 text-sm italic block">{{ errors[0] }}</span>
                   </validation-provider>
                 </div>
-                
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <validation-provider
                     v-slot="{ errors }"
@@ -79,7 +77,6 @@
                     <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
                   </validation-provider>
                 </div>
-
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <label
                     class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -95,7 +92,6 @@
                     placeholder="Middlename"
                   >
                 </div>
-
                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                   <validation-provider
                     v-slot="{ errors }"
@@ -118,7 +114,6 @@
                     <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
                   </validation-provider>
                 </div>
-
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
                   <validation-provider
                     v-slot="{ errors }"
@@ -141,7 +136,6 @@
                     <span class="text-red-400 text-sm italic ">{{ errors[0] }}</span>
                   </validation-provider>
                 </div>
-
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-5">
                   <validation-provider
                     v-slot="{ errors }"
@@ -258,10 +252,38 @@ export default {
     async onFileChange(e) {
       const { valid } = await this.$refs.avatarProvider.validate(e);
       if (valid) {
-        const file = e.target.files[0];
+        const file = e.target.files[0]
         this.avatar = file
-        this.url = URL.createObjectURL(file);
+        this.url = URL.createObjectURL(file)
+        let formData = this.getFormData()
+        let _this = this
+
+        PersonalInfoApi.changeAvatar(formData, this.newPersonalInfo.id)
+          .then(function(response) {
+            _this.isLoading = false
+            return response.data
+          }).then(data => {
+            let notification = {notification: "Avatar changed", type: "success"}
+            store.dispatch('addNotification', notification)
+            console.log(data)
+          })
+          .catch(err => {
+            console.log(err.response)
+            _this.avatar = null
+            _this.url = null
+            _this.$refs.avatarInput.value='';
+            let msg = "";
+            if (typeof err.response.data['hydra:description'] !== 'undefined') {
+              msg = err.response.data['hydra:description']
+            }
+            if (typeof err.response.data['detail'] !== 'undefined') {
+              msg = err.response.data['detail']
+            }
+            let notification = {notification:  msg, type: "error"}
+            store.dispatch('addNotification', notification)
+          });
       }
+      
     },
     async submitForm(){
       const isValid = await this.$refs.observer.validate();
@@ -275,7 +297,7 @@ export default {
           }).then(data => {
             let notification = {notification: data.lastname + " updated", type: "success"}
             store.dispatch('addNotification', notification)
-            console.log(data)
+            // console.log(data)
             store.dispatch('personalInfoId', data.id)
             this.$router.push({ name: 'profile' });
 
@@ -295,6 +317,11 @@ export default {
       this.newPersonalInfo = info
       this.url = res.avatar.url
       this.$refs.avatarInput.value='';
+    },
+    getFormData(){
+      let formData = new FormData()
+      formData.append('avatar', this.avatar)
+      return formData;
     },
   }
 };

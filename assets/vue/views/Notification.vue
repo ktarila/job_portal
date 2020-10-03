@@ -71,7 +71,7 @@ export default {
       return this.$store.getters['getNotificationMessage']
     },
     isError(){
-      console.log(this.$store.getters['getNotificationType'])
+      // console.log(this.$store.getters['getNotificationType'])
       return this.$store.getters['getNotificationType'] == "error"
     },
     isSuccess(){
