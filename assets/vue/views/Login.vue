@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import VueRouter from 'vue-router'
+const { isNavigationFailure, NavigationFailureType } = VueRouter
 export default {
   name: "Login",
   data() {
@@ -131,8 +133,16 @@ export default {
       this.$store.dispatch('login', payload)
         .then(() => {
           if (!this.$store.getters['hasError']) {
-            if (typeof redirect !== 'undefined' && redirect !== '/ads') {
-              this.$router.push({ path: redirect });
+            if (typeof redirect !== 'undefined') {
+              this.$router.push({ path: redirect })
+                .catch((failure) => {
+                  // console.info(error.message)
+                  // window.location = "/ads/profile"
+                  if (isNavigationFailure(failure, NavigationFailureType.redirected)) {
+                    window.location = failure.to.path
+                    // console.log(failure.from.path) // '/'
+                  }
+                })
             } else {
               window.location = "/"
             }

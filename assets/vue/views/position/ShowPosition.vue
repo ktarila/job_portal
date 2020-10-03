@@ -49,12 +49,15 @@
           </div>
 
           <div class="actions w-full m-5">
-            <button class="bg-green-700 text-white hover:bg-green-600 active:bg-green-600 font-bold text-lg uppercase px-6 py-3 rounded  outline-none focus:outline-none mr-3 mb-1">
+            <button 
+              v-if="isLoggedIn()"
+              class="bg-green-700 text-white hover:bg-green-600 active:bg-green-600 font-bold text-lg uppercase px-6 py-3 rounded  outline-none focus:outline-none mr-3 mb-1"
+            >
               <i class="fas fa-clipboard-check mr-3" />
               <span>Apply</span>
             </button>
             <router-link
-              v-if="position.id"
+              v-if="position.id && isLoggedIn()"
               class="bg-orange-700 text-white hover:bg-orange-600 active:bg-green-600 font-bold text-lg uppercase px-6 py-3 rounded  outline-none focus:outline-none mr-3 mb-1"
               :to="{ name: 'update-position', params: { id: position.id }}"
               type="button"

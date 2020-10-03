@@ -92,7 +92,10 @@
                 <th class="font-semibold text-left py-3 px-1">
                   Deadline
                 </th>
-                <th class="font-semibold text-left py-3 px-1">
+                <th
+                  v-if="isLoggedIn()" 
+                  class="font-semibold text-left py-3 px-1"
+                >
                   Action
                 </th>
               </tr>
@@ -127,7 +130,10 @@
                 <td class="py-3 px-1">
                   {{ dateFormat(position.deadline) }}
                 </td>
-                <td class="py-3 px-1">
+                <td
+                  v-if="isLoggedIn()"
+                  class="py-3 px-1"
+                >
                   <button class="focus:outline-none bg-blue-600 hover:bg-blue-700 text-white text-sm hover:text-white-700 py-2 px-4 rounded">
                     <i class="fas fa-clipboard-check mr-3" />
                     <span>Apply</span>
@@ -186,7 +192,7 @@ export default {
   computed: {
     currentStates() {
       return this.countries[this.selectedCountryIndex].states
-    }
+    },
   },
   watch: {
     currentPage: {

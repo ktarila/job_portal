@@ -35,7 +35,11 @@ Vue.use(VDatePicker, {});
 
 Vue.mixin({
   methods: {
-    dateFormat: date => moment(date).format("Do MMM, YYYY")
+    dateFormat: date => moment(date).format("Do MMM, YYYY"),
+    isLoggedIn: function(){
+      let tok = localStorage.getItem('token')
+      return tok !== null
+    }
   }
 })
 

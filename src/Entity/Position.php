@@ -24,17 +24,24 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     attributes={"order"={"id": "DESC"}},
  *     normalizationContext={"groups"={"position-read"}},
  *     denormalizationContext={"groups"={"write"}},
+ *     itemOperations={
+ *         "get",
+ *         "put"={
+ *             "security"="is_granted('ROLE_ADMIN')",
+ *         },
+ *     },
  *     collectionOperations = {
  *          "get"={
  *              "method"="GET",
  *              "path"="/positions{_format}",
  *          },
  *          "post"={
- *         "method"="POST",
- *         "path"="/positions.{_format}",
- *         "controller"=CreatePosition::class,
- *     }
- *      },
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "method"="POST",
+ *              "path"="/positions.{_format}",
+ *              "controller"=CreatePosition::class,
+ *          },
+ *    },
  * )
  */
 class Position

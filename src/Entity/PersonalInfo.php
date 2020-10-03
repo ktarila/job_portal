@@ -19,9 +19,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=PersonalInfoRepository::class)
  * @ApiResource(
- *     attributes={"order"={"id": "DESC"}},
+ *     attributes={
+ *         "order"={"id": "DESC"},
+ *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *     },
  *     normalizationContext={"groups"={"info-read"}},
  *     denormalizationContext={"groups"={"write"}},
+ *     itemOperations={
+ *         "get",
+ *         "put"={
+ *             "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *         },
+ *     },
  *     collectionOperations = {
  *          "get"={
  *              "method"="GET",

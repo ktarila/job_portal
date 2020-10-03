@@ -63,6 +63,8 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('refresh_token')
       localStorage.removeItem('user')
+      // let tok = localStorage.getItem('token')
+      // console.log(tok)
       commit('clearAuth')
     },
     AutoLogin({ commit }) {
@@ -110,6 +112,7 @@ export default {
     },
     isAuthenticated() {
       let tok = localStorage.getItem('token')
+      // console.log(tok)
       return tok !== null
     },
     hasError (state) {
