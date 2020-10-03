@@ -66,6 +66,7 @@ export default {
       // let tok = localStorage.getItem('token')
       // console.log(tok)
       commit('clearAuth')
+      window.location = "/"
     },
     AutoLogin({ commit }) {
       const token = localStorage.getItem('token')
