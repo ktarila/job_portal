@@ -81,7 +81,6 @@ export default {
   created() {
     document.title = "Profile - Job Portal"
     const infoId = this.$route.query.info_id
-    console.log(infoId)
     if (typeof infoId === 'undefined')
     {
       let user = this.$store.getters['user']
@@ -89,7 +88,7 @@ export default {
       this.personalInfoId = user.info !== null ? user.info : 0
 
     }else{
-      this.personalInfoId = 0
+      this.personalInfoId = parseInt(infoId)
     } 
     
   },

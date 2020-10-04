@@ -74,7 +74,7 @@
                 :key="index"
                 role="row"
                 class="hover:bg-blue-100 border-b cursor-pointer"
-                @click="showPosition(applicant.id)"
+                @click="showApplicant(applicant.id)"
               >
                 <td class="py-3 px-1">
                   #{{ getSerialNumber(index) }}
@@ -178,15 +178,15 @@ export default {
     performSearch() {
       // Your AJAX or other code to display the data for the newly selected currentPage
       // this.currentPage = selectedPage
-      this.getAllPositions(1)
+      this.getAllApplicants(1)
     },
     getSerialNumber(index) {
       return (index + 1) + ((this.allParams.page - 1) * this.perPage);
 
     },
-    showPosition(id) {
+    showApplicant(id) {
       console.log(id)
-      // this.$router.push({ name: "show-position", params: { id: id } });
+      this.$router.push({ name: "profile", query: { info_id: id } });
     },
   }
 };
