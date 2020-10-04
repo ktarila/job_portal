@@ -19,7 +19,7 @@
         <div class="w-full md:w-1/4 flex md:justify-end">
           <div>
             <router-link
-              v-if="personalInfoId == null"
+              v-if="personalInfoId == 0"
               class="bg-green-700 text-white hover:bg-green-600 active:bg-green-600 font-bold  text-sm md:text-normal uppercase py-2 px-4 md:px-6 md:py-3 rounded  outline-none focus:outline-none mr-3 mb-1"
               :to="{ name: 'new-personal-info'}"
               type="button"
@@ -70,6 +70,14 @@
 import PersonalInfoAPI from '../../api/personalInfo'
 export default {
   name: "PersonalInfo",
+  props: {
+    // type check
+    infoId: {
+      type: Number,
+      default: null,
+      required: true
+    }
+  },
   data() {
     return {
       firstname: "",
@@ -92,9 +100,6 @@ export default {
     },
   },
   created() {
-    let user = this.$store.getters['user']
-    console.log(user)
-    this.personalInfoId = user.info
     this.getInfo();
   },
   mounted: function() {
@@ -103,7 +108,8 @@ export default {
 
   methods: {
     getInfo() {
-      if (this.personalInfoId != null)
+      this.personalInfoId = this.infoId
+      if (this.personalInfoId !== 0)
       {
         PersonalInfoAPI.singlePersonalInfo(this.personalInfoId)
           .then(function(response) {

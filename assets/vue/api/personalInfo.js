@@ -3,6 +3,12 @@ import axiosApiInstance from '../helpers/axiosApiInstance'
 
 export default {
 
+  allApplicants(allParams) {
+    return axiosApiInstance.get('/api/personal_info', {
+      params: allParams
+    });
+  },
+
   createPersonalInfo(formData) {
     // console.log(formData);
     return axiosApiInstance.post('/api/personal_info',

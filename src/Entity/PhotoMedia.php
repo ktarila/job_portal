@@ -21,6 +21,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=PhotoMediaRepository::class)
  * @ApiResource(
  *     iri="http://schema.org/PhotoMedia",
+ *     collectionOperations={},
+ *     itemOperations={"get"},
  *     normalizationContext={
  *         "groups"={"photo_read", "info-read"},
  *     },

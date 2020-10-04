@@ -42,7 +42,9 @@
             <div class="px-4 py-5 flex-auto">
               <div class="tab-content tab-space">
                 <div :class="{'hidden': openTab !== 1, 'block': openTab === 1}">
-                  <PersonalInfo />
+                  <PersonalInfo 
+                    :info-id="personalInfoId"
+                  />
                 </div>
                 <div :class="{'hidden': openTab !== 2, 'block': openTab === 2}">
                   <Education />
@@ -72,11 +74,24 @@ export default {
   },
   data() {
     return {
-      openTab: 1
+      openTab: 1,
+      personalInfoId: ""
     }
   },
   created() {
     document.title = "Profile - Job Portal"
+    const infoId = this.$route.query.info_id
+    console.log(infoId)
+    if (typeof infoId === 'undefined')
+    {
+      let user = this.$store.getters['user']
+
+      this.personalInfoId = user.info !== null ? user.info : 0
+
+    }else{
+      this.personalInfoId = 0
+    } 
+    
   },
   methods: {
     toggleTabs: function(tabNumber){

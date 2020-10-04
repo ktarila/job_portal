@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     collectionOperations = {
  *          "get"={
+ * "security"="is_granted('ROLE_ADMIN')",
  *              "method"="GET",
  *              "path"="/personal_info.{_format}",
  *          },
