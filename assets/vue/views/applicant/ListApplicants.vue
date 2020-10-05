@@ -185,8 +185,8 @@ export default {
 
     },
     showApplicant(id) {
-      console.log(id)
-      this.$router.push({ name: "profile", query: { info_id: id } });
+      // console.log(id)
+      this.$router.push({ name: "profile", params: { info_id: id } });
     },
   }
 };
