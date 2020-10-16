@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  nginx:
+    build:
+      args:
+        VERSION: $NGINX_VERSION
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      target: dev
+    volumes:
+      - ./public:/app/public
+    depends_on:
+      - php-fpm
+    ports:
+      - 8000:80
+
+  mysql:
+    build:
+      args:
+        VERSION: $MYSQL_VERSION
+      context: ./docker/mysql
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+
+  redis:
+    build:
+      args:
+        VERSION: $REDIS_VERSION
+      context: ./docker/redis
+
+  php-fpm:
+    build:
+      args:
+        VERSION: $PHP_VERSION
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      target: dev
+    volumes:
+      - .:/app
+    command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm && yarn install && yarn dev --watch'
+    depends_on:
+      - mysql
+      - redis
+  

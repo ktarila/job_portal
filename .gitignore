@@ -29,3 +29,17 @@ yarn-error.log
 
 # exception to the rule
 !/public/media/photo/.gitkeep
+
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+
+###> PhpStorm ###
+/.idea
+###< PhpStorm ###
+
+###> docker ###
+/docker/mysql/data/*
+!/docker/mysql/data/.gitkeep
+###< docker ###
