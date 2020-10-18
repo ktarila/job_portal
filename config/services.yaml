@@ -5,6 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     photo_uploads: '%kernel.project_dir%/%env(PHOTO_UPLOADS)%'
+    dropbox.token: '%env(DROPBOX_API_KEY)%'
+    # dropbox.token: -iDveqWXfq8AAAAAAAAAAYXma6wO7HAQVqycuv-qxq0mmvVlLaqb-tZ0G3JEsn6L
 
 services:
     # default configuration for services in *this* file
@@ -38,6 +40,12 @@ services:
         class: App\Doctrine\RefreshTokenManager
         public: true
         arguments: [ '@doctrine.orm.default_entity_manager', 'Gesdinet\JWTRefreshTokenBundle\Entity\RefreshToken']
+
+    dropbox.client:
+        class: Spatie\Dropbox\Client
+        arguments:
+            - '%dropbox.token%'
+
  
 
     # add more service definitions when explicit configuration is needed

@@ -1,0 +1,21 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
+oneup_flysystem:
+    adapters:
+        local_adapter:
+            local:
+                directory: '%photo_uploads%'
+        dropbox_adapter:
+            dropbox:
+                client: dropbox.client
+                prefix: 'media/photo'
+
+    filesystems:
+        local_filesystem:
+            adapter: local_adapter
+            alias: League\Flysystem\Filesystem
+            mount: local_filesystem
+
+        dropbox_filesystem:
+            adapter: dropbox_adapter
+            alias: dropbox_filesystem
+            mount: dropbox_filesystem

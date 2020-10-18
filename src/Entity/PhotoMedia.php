@@ -83,6 +83,7 @@ class PhotoMedia
      */
     public function getUrl(): string
     {
-        return "/media/photo/{$this->filePath}";
+        // return "/media/photo/{$this->filePath}";
+        return "/photo/media/download/{$this->id}";
     }
 }
