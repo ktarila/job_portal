@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of PTDF STEM Application Symfony Project.
+ * This file is part of a Job Portal Application Symfony Project.
  *
  * (c) Patrick Kenekayoro <Patrick.Kenekayoro@outlook.com>.
  */
