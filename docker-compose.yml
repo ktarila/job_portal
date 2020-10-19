@@ -45,4 +45,18 @@ services:
     depends_on:
       - mysql
       - redis
+
+
+  php-fpm-consume-msg:
+    build:
+      args:
+        VERSION: $PHP_VERSION
+      context: .
+      dockerfile: ./docker/php-fpm-consume-msg/Dockerfile
+      target: dev
+    volumes:
+      - .:/app
+    command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm'
+    depends_on:
+      - mysql
   
