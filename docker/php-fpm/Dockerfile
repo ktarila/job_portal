@@ -46,7 +46,7 @@ COPY . .
 ## Install application dependencies
 RUN composer install --no-interaction --optimize-autoloader
 
-RUN yarn install && yarn dev --watch
+RUN yarn install && yarn encore production
 
 ## Change files owner to php-fpm default user
 RUN chown -R www-data:www-data .
@@ -61,9 +61,6 @@ RUN composer install --no-dev --no-interaction --optimize-autoloader
 
 ## Disable xdebug on production
 RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-#Yarn prdocution
-RUN yarn install && yarn encore production
 
 ## Cleanup
 RUN apk del dev-deps && \

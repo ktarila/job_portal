@@ -41,7 +41,7 @@ services:
       target: dev
     volumes:
       - .:/app
-    command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm && yarn install && yarn dev --watch'
+    command: sh -c 'composer install --no-interaction --optimize-autoloader && php-fpm'
     depends_on:
       - mysql
       - redis
